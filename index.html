@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="mwl.example">
+
+    <head>
+        <script src="bower_components/bluebird/js/browser/bluebird.js"></script>
+        <script src="bower_components/angular/angular.min.js"></script>
+        <script src="dist/angular-bluebird-promises.min.js"></script>
+        <script>
+
+            angular.module('mwl.example', ['mwl.bluebird']).run(function($q, $http) {
+
+                var promises = [
+                    $http.get('test/angular.json'),
+                    $http.get('test/bluebird.json')
+                ];
+
+                $q.all(promises).spread(function(angular, bluebird) {
+
+                    console.info('\\m/ It worked! \\m/', angular.data.name, bluebird.data.name);
+
+                }).catch(console.error);
+
+            });
+
+        </script>
+    </head>
+
+</html>
