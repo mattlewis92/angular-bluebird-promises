@@ -1,5 +1,4 @@
 # Angular bluebird promises
-=========================
 
 This is a drop in replacement for $q that makes the bluebird API compatible with angulars subset of $q then simply swaps it out.
 
