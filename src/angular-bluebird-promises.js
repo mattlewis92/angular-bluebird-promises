@@ -27,6 +27,35 @@
         return Bluebird.cast(a);
       };
 
+      var originalAll = Bluebird.all;
+      Bluebird.all = function(promises) {
+
+        if (angular.isObject(promises)) {
+
+          var promiseArray = [], promiseKeysArray = [];
+          angular.forEach(promises, function(promise, key) {
+
+            promiseKeysArray.push(key);
+            promiseArray.push(promise);
+
+          });
+
+          return originalAll(promiseArray).then(function(results) {
+
+            var objectResult = {};
+            angular.forEach(results, function(result, index) {
+              objectResult[promiseKeysArray[index]] = result;
+            });
+            return objectResult;
+
+          });
+
+        } else {
+          return originalAll(promises);
+        }
+
+      };
+
       Bluebird.onPossiblyUnhandledRejection(angular.noop);
 
       $provide.decorator('$q', function() {
