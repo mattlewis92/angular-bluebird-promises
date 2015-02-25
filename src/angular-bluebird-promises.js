@@ -30,7 +30,7 @@
       var originalAll = Bluebird.all;
       Bluebird.all = function(promises) {
 
-        if (angular.isObject(promises)) {
+        if (angular.isObject(promises) && !angular.isArray(promises)) {
 
           var promiseArray = [], promiseKeysArray = [];
           angular.forEach(promises, function(promise, key) {

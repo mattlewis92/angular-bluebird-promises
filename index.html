@@ -15,10 +15,10 @@
                 ];
 
                 $q.all(promises).spread(function(angular, bluebird) {
-
                     console.info('\\m/ It worked! \\m/', angular.data.name, bluebird.data.name);
-
-                }).catch(console.error);
+                }).catch(function(err) {
+                    console.error(err);
+                });
 
             });
 

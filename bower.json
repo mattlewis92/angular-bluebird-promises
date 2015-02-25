@@ -1,6 +1,6 @@
 {
   "name": "angular-bluebird-promises",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "homepage": "https://github.com/mattlewis92/angular-bluebird-promises",
   "authors": [
     "Matt Lewis <matt@iwaz.at>"
@@ -22,6 +22,6 @@
   ],
   "dependencies": {
     "angular": "~1.3.2",
-    "bluebird": "~2.3.11"
+    "bluebird": "^2.3.11"
   }
 }
