@@ -2,30 +2,22 @@
 
   angular
     .module('mwl.bluebird', [])
-    .constant('Bluebird', Promise)
+    .constant('Bluebird', Promise.noConflict())
     .config(function($provide, Bluebird) {
 
       //Make bluebird API compatible with angular's subset of $q
-      //Adapted from: http://bit.ly/1zffMKH
-      function bind(fn, ctx) {
-        return function() {
-          return fn.apply(ctx, arguments);
-        };
-      }
+      //Adapted from: https://gist.github.com/petkaantonov/8363789
 
       Bluebird.defer = function() {
         var b = Bluebird.pending();
-        b.resolve = bind(b.fulfill, b);
-        b.reject = bind(b.reject, b);
-        b.notify = bind(b.progress, b);
+        b.resolve = angular.bind(b, b.fulfill);
+        b.reject = angular.bind(b, b.reject);
+        b.notify = angular.bind(b, b.progress);
         return b;
       };
 
       Bluebird.reject = Bluebird.rejected;
-
-      Bluebird.when = function(a) {
-        return Bluebird.cast(a);
-      };
+      Bluebird.when = Bluebird.cast;
 
       var originalAll = Bluebird.all;
       Bluebird.all = function(promises) {
