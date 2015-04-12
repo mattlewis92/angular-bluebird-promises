@@ -37,6 +37,7 @@
     "main-bower-files": "~2.6.2",
     "mocha": "~2.2.4",
     "open": "0.0.5",
+    "run-sequence": "~1.0.2",
     "stream-series": "~0.1.1"
   }
 }

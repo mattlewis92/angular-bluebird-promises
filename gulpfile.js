@@ -3,6 +3,7 @@ var $ = require('gulp-load-plugins')();
 var open = require('open');
 var bowerFiles = require('main-bower-files');
 var series = require('stream-series');
+var runSequence = require('run-sequence');
 
 gulp.task('watch', ['server'], function() {
   $.livereload.listen();
@@ -83,4 +84,8 @@ gulp.task('lint', function() {
 
 gulp.task('ci:lint', function() {
   return lint(true);
+});
+
+gulp.task('ci', function(done) {
+  runSequence('ci:lint', 'build', 'test:dist', done);
 });
