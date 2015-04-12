@@ -1,5 +1,7 @@
 (function(angular, Promise) {
 
+  'use strict';
+
   angular
     .module('mwl.bluebird', [])
     .constant('Bluebird', Promise.noConflict())

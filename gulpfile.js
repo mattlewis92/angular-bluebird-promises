@@ -64,3 +64,23 @@ gulp.task('test:dist', function() {
 gulp.task('test:watch', function() {
   return runTests('watch');
 });
+
+function lint(failOnError) {
+  var stream = gulp.src(['src/*.js'])
+    .pipe($.eslint())
+    .pipe($.eslint.format());
+
+  if (failOnError) {
+    return stream.pipe($.eslint.failOnError());
+  } else {
+    return stream;
+  }
+}
+
+gulp.task('lint', function() {
+  return lint();
+});
+
+gulp.task('ci:lint', function() {
+  return lint(true);
+});
