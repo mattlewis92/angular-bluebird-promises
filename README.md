@@ -1,5 +1,10 @@
 # Angular bluebird promises
 
+[![Build Status](https://travis-ci.org/mattlewis92/angular-bluebird-promises.svg?branch=master)](https://travis-ci.org/mattlewis92/angular-bluebird-promises)
+[![Bower version](https://badge.fury.io/bo/angular-bluebird-promises.svg)](http://badge.fury.io/bo/angular-bluebird-promises)
+[![devDependency Status](https://david-dm.org/mattlewis92/angular-bluebird-promises/dev-status.svg)](https://david-dm.org/mattlewis92/angular-bluebird-promises#info=devDependencies)
+
+
 This is a drop in replacement for $q that makes the bluebird API compatible with angulars subset of $q then simply swaps it out.
 
 With this module you can use all of bluebirds additional promise methods on the $q service, the full list can be found here:
