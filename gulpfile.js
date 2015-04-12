@@ -20,13 +20,24 @@ gulp.task('server', function() {
   open('http://localhost:8000');
 });
 
+var pkg = require('./bower.json');
+var banner = ['/**',
+  ' * <%= pkg.name %> - <%= pkg.description %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @license <%= pkg.license %>',
+  ' */',
+  ''].join('\n');
+
 gulp.task('build', function() {
 
   return gulp.src('src/*.js')
+    .pipe(gulp.dest('dist'))
     .pipe($.sourcemaps.init())
     .pipe($.ngAnnotate())
-    .pipe($.concat('angular-bluebird-promises.min.js'))
+    .pipe($.rename('angular-bluebird-promises.min.js'))
     .pipe($.uglify())
+    .pipe($.header(banner, { pkg : pkg } ))
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest('dist'));
 
