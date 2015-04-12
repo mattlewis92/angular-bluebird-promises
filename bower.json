@@ -6,7 +6,7 @@
     "Matt Lewis"
   ],
   "description": "Replaces $q with bluebirds promise API",
-  "main": "dist/angular-bluebird-promises.min.js",
+  "main": "dist/angular-bluebird-promises.js",
   "keywords": [
     "angular",
     "bluebird",
