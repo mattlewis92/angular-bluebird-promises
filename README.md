@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/mattlewis92/angular-bluebird-promises.svg?branch=master)](https://travis-ci.org/mattlewis92/angular-bluebird-promises)
 [![Bower version](https://badge.fury.io/bo/angular-bluebird-promises.svg)](http://badge.fury.io/bo/angular-bluebird-promises)
 [![devDependency Status](https://david-dm.org/mattlewis92/angular-bluebird-promises/dev-status.svg)](https://david-dm.org/mattlewis92/angular-bluebird-promises#info=devDependencies)
-
+[![Codacy Badge](https://www.codacy.com/project/badge/b62fc2d7f4cb486d9a9a81945d236843)](https://www.codacy.com/app/matt-lewis-private/angular-bluebird-promises)
 
 This is a drop in replacement for $q that makes the bluebird API compatible with angulars subset of $q then simply swaps it out.
 
@@ -13,7 +13,7 @@ https://github.com/petkaantonov/bluebird/blob/master/API.md
 
 ## Installation
 
-The library obviously depends on angularJS and Bluebird.
+The library depends on angularJS and Bluebird.
 
 It is recommended that you install the library and its dependencies through bower:
 
