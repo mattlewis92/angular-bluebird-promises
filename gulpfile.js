@@ -7,6 +7,8 @@ var runSequence = require('run-sequence');
 
 gulp.task('watch', ['server'], function() {
   $.livereload.listen();
+  gulp.start('test:watch');
+  gulp.watch('src/*.js', ['eslint']);
   gulp.watch(['./index.html', './docs/**', './src/**']).on('change', $.livereload.changed);
 });
 
@@ -77,7 +79,7 @@ gulp.task('test:watch', function() {
   return runTests('watch');
 });
 
-function lint(failOnError) {
+function eslint(failOnError) {
   var stream = gulp.src(['src/*.js'])
     .pipe($.eslint())
     .pipe($.eslint.format());
@@ -89,14 +91,14 @@ function lint(failOnError) {
   }
 }
 
-gulp.task('lint', function() {
-  return lint();
+gulp.task('eslint', function() {
+  return eslint();
 });
 
-gulp.task('ci:lint', function() {
-  return lint(true);
+gulp.task('ci:eslint', function() {
+  return eslint(true);
 });
 
 gulp.task('ci', function(done) {
-  runSequence('ci:lint', 'build', 'test:dist', done);
+  runSequence('ci:eslint', 'build', 'test:dist', done);
 });

@@ -64,4 +64,4 @@
 
     });
 
-})(angular, Promise);
+}(angular, Promise));

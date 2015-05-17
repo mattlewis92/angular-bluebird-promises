@@ -22,7 +22,7 @@
     "gulp": "~3.8.10",
     "gulp-concat": "~2.5.2",
     "gulp-connect": "~2.2.0",
-    "gulp-eslint": "~0.8.0",
+    "gulp-eslint": "~0.12.0",
     "gulp-header": "~1.2.2",
     "gulp-karma": "0.0.4",
     "gulp-livereload": "~3.8.0",
@@ -36,10 +36,10 @@
     "karma-chrome-launcher": "~0.1.7",
     "karma-mocha": "~0.1.10",
     "karma-phantomjs-launcher": "~0.1.4",
-    "main-bower-files": "~2.6.2",
+    "main-bower-files": "~2.8.0",
     "mocha": "~2.2.4",
     "open": "0.0.5",
-    "run-sequence": "~1.0.2",
+    "run-sequence": "~1.1.0",
     "stream-series": "~0.1.1"
   }
 }
