@@ -1,10 +1,10 @@
-(function(angular, Promise) {
+(function(angular, P) {
 
   'use strict';
 
   angular
     .module('mwl.bluebird', [])
-    .constant('Bluebird', Promise.noConflict())
+    .constant('Bluebird', P.noConflict())
     .config(function($provide, Bluebird) {
 
       //Make bluebird API compatible with angular's subset of $q
@@ -64,4 +64,4 @@
 
     });
 
-}(angular, Promise));
+}(angular, P));
