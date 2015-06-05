@@ -1,6 +1,6 @@
 {
   "name": "angular-bluebird-promises",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Replaces $q with bluebirds promise API",
   "browser": "dist/angular-bluebird-promises.js",
   "main": "index.js",
@@ -44,7 +44,7 @@
     "stream-series": "~0.1.1"
   },
   "dependencies": {
-    "angular": "~1.3.15",
+    "angular": ">=1.2.0 <1.5",
     "bluebird": "~2.9.25"
   }
 }
