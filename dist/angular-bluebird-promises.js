@@ -25,27 +25,9 @@
       Bluebird.all = function(promises) {
 
         if (angular.isObject(promises) && !angular.isArray(promises)) {
-
-          var promiseArray = [], promiseKeysArray = [];
-          angular.forEach(promises, function(promise, key) {
-
-            promiseKeysArray.push(key);
-            promiseArray.push(promise);
-
-          });
-
-          return originalAll(promiseArray).then(function(results) {
-
-            var objectResult = {};
-            angular.forEach(results, function(result, index) {
-              objectResult[promiseKeysArray[index]] = result;
-            });
-            return objectResult;
-
-          });
-
+          return Bluebird.props(promises);
         } else {
-          return originalAll(promises);
+          return originalAll.call(Bluebird, promises);
         }
 
       };
