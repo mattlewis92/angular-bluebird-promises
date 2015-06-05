@@ -35,6 +35,16 @@ And finally add the module dependency in your AngularJS app:
 angular.module('myModule', ['mwl.bluebird']);
 ```
 
+By default the value of onPossiblyUnhandledRejection is set to angular.noop. You **can and should** override this with your own handler in order to catch uncaught errors. For example:
+
+```javascript
+angular.module('mwl.bluebird').run(function($q, $log) {
+  $q.onPossiblyUnhandledRejection(function(err) {
+    $log.warn('Unhandled rejection', err);
+  });
+});
+```
+
 ## Usage
 
 Simply use $q as you normally would. It will function exactly as before, however you will now have bluebirds additional API methods available as well on all promises throughout your angular app.
