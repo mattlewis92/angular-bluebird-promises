@@ -34,9 +34,10 @@ var banner = ['/**',
 gulp.task('build', function() {
 
   return gulp.src('src/*.js')
-    .pipe(gulp.dest('dist'))
     .pipe($.sourcemaps.init())
+    .pipe($.header(banner, { pkg : pkg } ))
     .pipe($.ngAnnotate())
+    .pipe(gulp.dest('dist'))
     .pipe($.rename('angular-bluebird-promises.min.js'))
     .pipe($.uglify())
     .pipe($.header(banner, { pkg : pkg } ))

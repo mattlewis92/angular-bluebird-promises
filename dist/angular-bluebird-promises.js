@@ -1,3 +1,9 @@
+/**
+ * angular-bluebird-promises - Replaces $q with bluebirds promise API
+ * @version v0.3.5
+ * @link https://github.com/mattlewis92/angular-bluebird-promises
+ * @license MIT
+ */
 (function(angular, window) {
 
   'use strict';
@@ -5,7 +11,7 @@
   angular
     .module('mwl.bluebird', [])
     .constant('Bluebird', window.P.noConflict())
-    .config(function($provide, Bluebird) {
+    .config(["$provide", "Bluebird", function($provide, Bluebird) {
 
       //Make bluebird API compatible with angular's subset of $q
       //Adapted from: https://gist.github.com/petkaantonov/8363789
@@ -38,12 +44,12 @@
         return Bluebird;
       });
 
-    }).run(function($rootScope, Bluebird) {
+    }]).run(["$rootScope", "Bluebird", function($rootScope, Bluebird) {
 
       Bluebird.setScheduler(function(cb) {
         $rootScope.$evalAsync(cb);
       });
 
-    });
+    }]);
 
 }(angular, window));
