@@ -5,7 +5,7 @@
   angular
     .module('mwl.bluebird', [])
     .constant('Bluebird', window.P.noConflict())
-    .config(function($provide, Bluebird) {
+    .config(['$provide', 'Bluebird', function($provide, Bluebird) {
 
       //Make bluebird API compatible with angular's subset of $q
       //Adapted from: https://gist.github.com/petkaantonov/8363789
@@ -38,12 +38,12 @@
         return Bluebird;
       });
 
-    }).run(function($rootScope, Bluebird) {
+    }]).run(['$rootScope', 'Bluebird', function($rootScope, Bluebird) {
 
       Bluebird.setScheduler(function(cb) {
         $rootScope.$evalAsync(cb);
       });
 
-    });
+    }]);
 
 }(angular, window));
