@@ -29,15 +29,21 @@ You will then need to include the JS files for the plugin:
 <script src="bower_components/angular-bluebird-promises/dist/angular-bluebird-promises.min.js">
 ```
 
+And finally add the module dependency in your AngularJS app:
+
+```javascript
+angular.module('myApp', ['mwl.bluebird']);
+```
+
 Alternatively you can install through npm:
 ```
 npm install --save angular-bluebird-promises
 ```
 
-And finally add the module dependency in your AngularJS app:
+Then add as a dependency to your app:
 
 ```javascript
-angular.module('myModule', ['mwl.bluebird']);
+angular.module('myApp', [require('angular-bluebird-promises')]);
 ```
 
 By default the value of onPossiblyUnhandledRejection is set to angular.noop. You **can and should** override this with your own handler in order to catch uncaught errors. For example:
