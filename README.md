@@ -29,6 +29,11 @@ You will then need to include the JS files for the plugin:
 <script src="bower_components/angular-bluebird-promises/dist/angular-bluebird-promises.min.js">
 ```
 
+Alternatively you can install through npm:
+```
+npm install --save angular-bluebird-promises
+```
+
 And finally add the module dependency in your AngularJS app:
 
 ```javascript
