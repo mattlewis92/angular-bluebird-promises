@@ -2,9 +2,10 @@
 
 var angular = require('angular');
 var bluebird = require('bluebird');
+var MODULE_NAME = 'mwl.bluebird';
 
 angular
-  .module('mwl.bluebird', [])
+  .module(MODULE_NAME, [])
   .constant('Bluebird', bluebird)
   .config(function($provide, Bluebird) {
 
@@ -47,4 +48,4 @@ angular
 
   });
 
-module.exports = 'mwl.bluebird';
+module.exports = MODULE_NAME;
