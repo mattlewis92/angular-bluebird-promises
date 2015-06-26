@@ -3,7 +3,7 @@
   "version": "0.3.6",
   "description": "Replaces $q with bluebirds promise API",
   "browser": "dist/angular-bluebird-promises.js",
-  "main": "index.js",
+  "main": "src/angular-bluebird-promises.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/mattlewis92/angular-bluebird-promises.git"
@@ -39,13 +39,15 @@
     "karma-phantomjs-launcher": "~0.2.0",
     "main-bower-files": "~2.8.0",
     "mocha": "~2.2.4",
+    "node-libs-browser": "~0.5.2",
     "open": "0.0.5",
     "phantomjs": "~1.9.17",
     "run-sequence": "~1.1.0",
-    "stream-series": "~0.1.1"
+    "stream-series": "~0.1.1",
+    "webpack": "~1.9.12"
   },
   "dependencies": {
     "angular": ">=1.2.0 <1.5",
-    "bluebird": "~2.9.25"
+    "bluebird": "^2.9.25"
   }
 }

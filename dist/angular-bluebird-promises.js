@@ -4,52 +4,115 @@
  * @link https://github.com/mattlewis92/angular-bluebird-promises
  * @license MIT
  */
-(function(angular, window) {
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+/******/
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
 
-  'use strict';
+	'use strict';
+	
+	var angular = __webpack_require__(1);
+	var bluebird = __webpack_require__(2);
+	
+	angular
+	  .module('mwl.bluebird', [])
+	  .constant('Bluebird', bluebird)
+	  .config(["$provide", "Bluebird", function($provide, Bluebird) {
+	
+	    //Make bluebird API compatible with angular's subset of $q
+	    //Adapted from: https://gist.github.com/petkaantonov/8363789
+	
+	    Bluebird.defer = function() {
+	      var b = Bluebird.pending();
+	      b.resolve = angular.bind(b, b.fulfill);
+	      b.reject = angular.bind(b, b.reject);
+	      b.notify = angular.bind(b, b.progress);
+	      return b;
+	    };
+	
+	    Bluebird.reject = Bluebird.rejected;
+	    Bluebird.when = Bluebird.cast;
+	
+	    var originalAll = Bluebird.all;
+	    Bluebird.all = function(promises) {
+	
+	      if (angular.isObject(promises) && !angular.isArray(promises)) {
+	        return Bluebird.props(promises);
+	      } else {
+	        return originalAll.call(Bluebird, promises);
+	      }
+	
+	    };
+	
+	    Bluebird.onPossiblyUnhandledRejection(angular.noop);
+	
+	    $provide.decorator('$q', function() {
+	      return Bluebird;
+	    });
+	
+	  }]).run(["$rootScope", "Bluebird", function($rootScope, Bluebird) {
+	
+	    Bluebird.setScheduler(function(cb) {
+	      $rootScope.$evalAsync(cb);
+	    });
+	
+	  }]);
+	
+	module.exports = 'mwl.bluebird';
 
-  angular
-    .module('mwl.bluebird', [])
-    .constant('Bluebird', window.P.noConflict())
-    .config(["$provide", "Bluebird", function($provide, Bluebird) {
 
-      //Make bluebird API compatible with angular's subset of $q
-      //Adapted from: https://gist.github.com/petkaantonov/8363789
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
 
-      Bluebird.defer = function() {
-        var b = Bluebird.pending();
-        b.resolve = angular.bind(b, b.fulfill);
-        b.reject = angular.bind(b, b.reject);
-        b.notify = angular.bind(b, b.progress);
-        return b;
-      };
+	module.exports = angular;
 
-      Bluebird.reject = Bluebird.rejected;
-      Bluebird.when = Bluebird.cast;
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
 
-      var originalAll = Bluebird.all;
-      Bluebird.all = function(promises) {
+	module.exports = Promise;
 
-        if (angular.isObject(promises) && !angular.isArray(promises)) {
-          return Bluebird.props(promises);
-        } else {
-          return originalAll.call(Bluebird, promises);
-        }
-
-      };
-
-      Bluebird.onPossiblyUnhandledRejection(angular.noop);
-
-      $provide.decorator('$q', function() {
-        return Bluebird;
-      });
-
-    }]).run(["$rootScope", "Bluebird", function($rootScope, Bluebird) {
-
-      Bluebird.setScheduler(function(cb) {
-        $rootScope.$evalAsync(cb);
-      });
-
-    }]);
-
-}(angular, window));
+/***/ }
+/******/ ]);

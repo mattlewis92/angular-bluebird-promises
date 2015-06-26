@@ -27,10 +27,10 @@
     "max-len": [2, 160, 4]
   },
   "globals": {
-    "angular": true,
-    "window": true
+    "angular": true
   },
-  "envs": [
-    "browser"
-  ]
+  "env": {
+    "browser": true,
+    "node": true
+  }
 }

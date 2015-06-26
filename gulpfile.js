@@ -4,12 +4,13 @@ var open = require('open');
 var bowerFiles = require('main-bower-files');
 var series = require('stream-series');
 var runSequence = require('run-sequence');
+var webpack = require('webpack');
 
 gulp.task('watch', ['server'], function() {
   $.livereload.listen();
   gulp.start('test:watch');
-  gulp.watch('src/*.js', ['eslint']);
-  gulp.watch(['./index.html', './docs/**', './src/**']).on('change', $.livereload.changed);
+  gulp.watch('src/*.js', ['eslint', 'webpack']);
+  gulp.watch(['./index.html', './webpack/**']).on('change', $.livereload.changed);
 });
 
 gulp.task('server', function() {
@@ -22,6 +23,21 @@ gulp.task('server', function() {
   open('http://localhost:8000');
 });
 
+gulp.task('webpack', function(done) {
+  webpack({
+    entry: './src/angular-bluebird-promises.js',
+    output: {
+      path: 'webpack',
+      filename: 'angular-bluebird-promises.js'
+    },
+    externals: {
+      angular: 'angular',
+      bluebird: 'Promise'
+    },
+    devtool: 'source-map'
+  }, done);
+});
+
 var pkg = require('./bower.json');
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
@@ -31,10 +47,12 @@ var banner = ['/**',
   ' */',
   ''].join('\n');
 
-gulp.task('build', function() {
+gulp.task('build', ['webpack'], function() {
 
-  return gulp.src('src/*.js')
-    .pipe($.sourcemaps.init())
+  return gulp.src('webpack/*.js')
+    .pipe($.sourcemaps.init({
+      loadMaps: true
+    }))
     .pipe($.header(banner, { pkg : pkg } ))
     .pipe($.ngAnnotate())
     .pipe(gulp.dest('dist'))
@@ -53,7 +71,7 @@ function runTests(action, onDistCode) {
   if (onDistCode) {
     var appJs = gulp.src('dist/angular-bluebird-promises.min.js');
   } else {
-    var appJs = gulp.src('src/angular-bluebird-promises.js');
+    var appJs = gulp.src('webpack/angular-bluebird-promises.js');
   }
   var test = gulp.src('test/angular-bluebird-promises.spec.js');
 
@@ -64,7 +82,7 @@ function runTests(action, onDistCode) {
     }));
 }
 
-gulp.task('test:src', function() {
+gulp.task('test:src', ['webpack'], function() {
   return runTests('run').on('error', function(err) {
     throw err;
   });
@@ -77,6 +95,7 @@ gulp.task('test:dist', function() {
 });
 
 gulp.task('test:watch', function() {
+  gulp.watch('src/*.js', ['eslint', 'webpack']);
   return runTests('watch');
 });
 
