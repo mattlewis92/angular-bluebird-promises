@@ -95,7 +95,6 @@ gulp.task('test:dist', function() {
 });
 
 gulp.task('test:watch', function() {
-  gulp.watch('src/*.js', ['eslint', 'webpack']);
   return runTests('watch');
 });
 
