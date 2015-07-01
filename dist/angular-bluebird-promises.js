@@ -1,6 +1,6 @@
 /**
  * angular-bluebird-promises - Replaces $q with bluebirds promise API
- * @version v0.4.1
+ * @version v0.4.2
  * @link https://github.com/mattlewis92/angular-bluebird-promises
  * @license MIT
  */
