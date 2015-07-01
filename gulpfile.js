@@ -4,13 +4,15 @@ var open = require('open');
 var bowerFiles = require('main-bower-files');
 var series = require('stream-series');
 var runSequence = require('run-sequence');
-var webpack = require('webpack-stream');
+var webpackStream = require('webpack-stream');
+var webpack = require('webpack');
+var ejs = require('ejs');
 
 gulp.task('watch', ['server'], function() {
   $.livereload.listen();
   gulp.start('test:watch');
   gulp.watch('src/*.js', ['eslint', 'webpack']);
-  gulp.watch(['./index.html', './webpack/**']).on('change', $.livereload.changed);
+  gulp.watch(['index.html', 'dist/angular-bluebird-promises.js']).on('change', $.livereload.changed);
 });
 
 gulp.task('server', function() {
@@ -23,21 +25,6 @@ gulp.task('server', function() {
   open('http://localhost:8000');
 });
 
-gulp.task('webpack', function() {
-  return gulp.src('src/angular-bluebird-promises.js')
-    .pipe(webpack({
-      output: {
-        filename: 'angular-bluebird-promises.js'
-      },
-      externals: {
-        angular: 'angular',
-        bluebird: 'Promise'
-      },
-      devtool: 'source-map'
-    }))
-    .pipe(gulp.dest('webpack'));
-});
-
 var pkg = require('./bower.json');
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
@@ -47,15 +34,39 @@ var banner = ['/**',
   ' */',
   ''].join('\n');
 
+gulp.task('webpack', function() {
+  var bannerCompiled = ejs.render(banner, {pkg: pkg});
+  return gulp.src('src/angular-bluebird-promises.js')
+    .pipe(webpackStream({
+      output: {
+        filename: 'angular-bluebird-promises.js'
+      },
+      externals: {
+        angular: 'angular',
+        bluebird: 'Promise'
+      },
+      devtool: 'source-map',
+      plugins: [
+        new webpack.BannerPlugin(bannerCompiled, {
+          raw: true,
+          entryOnly: true
+        })
+      ],
+      module: {
+        loaders: [
+          {test: /.*\.js$/, loaders: ['ng-annotate']}
+        ]
+      }
+    }))
+    .pipe(gulp.dest('dist'));
+});
+
 gulp.task('build', ['webpack'], function() {
 
-  return gulp.src('webpack/*.js')
+  return gulp.src('dist/angular-bluebird-promises.js')
     .pipe($.sourcemaps.init({
       loadMaps: true
     }))
-    .pipe($.header(banner, { pkg : pkg } ))
-    .pipe($.ngAnnotate())
-    .pipe(gulp.dest('dist'))
     .pipe($.rename('angular-bluebird-promises.min.js'))
     .pipe($.uglify())
     .pipe($.header(banner, { pkg : pkg } ))
@@ -71,7 +82,7 @@ function runTests(action, onDistCode) {
   if (onDistCode) {
     var appJs = gulp.src('dist/angular-bluebird-promises.min.js');
   } else {
-    var appJs = gulp.src('webpack/angular-bluebird-promises.js');
+    var appJs = gulp.src('dist/angular-bluebird-promises.js');
   }
   var test = gulp.src('test/angular-bluebird-promises.spec.js');
 

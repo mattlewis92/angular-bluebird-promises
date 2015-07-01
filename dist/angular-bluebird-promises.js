@@ -4,6 +4,7 @@
  * @link https://github.com/mattlewis92/angular-bluebird-promises
  * @license MIT
  */
+
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -54,9 +55,10 @@
 	
 	var angular = __webpack_require__(1);
 	var bluebird = __webpack_require__(2);
+	var MODULE_NAME = 'mwl.bluebird';
 	
 	angular
-	  .module('mwl.bluebird', [])
+	  .module(MODULE_NAME, [])
 	  .constant('Bluebird', bluebird)
 	  .config(["$provide", "Bluebird", function($provide, Bluebird) {
 	
@@ -99,7 +101,7 @@
 	
 	  }]);
 	
-	module.exports = 'mwl.bluebird';
+	module.exports = MODULE_NAME;
 
 
 /***/ },
@@ -116,3 +118,4 @@
 
 /***/ }
 /******/ ]);
+//# sourceMappingURL=angular-bluebird-promises.js.map
