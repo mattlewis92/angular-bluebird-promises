@@ -232,6 +232,10 @@ describe('$q', function() {
 
     });
 
+    it('$q should be bluebird', function() {
+      expect($q).to.eql(Promise);
+    });
+
   });
 
   describe('Bluebird methods', function() {
