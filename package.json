@@ -46,8 +46,8 @@
     "test:unmin": "./node_modules/karma/bin/karma start",
     "test:min": "./node_modules/karma/bin/karma start --min",
     "test:watch": "./node_modules/karma/bin/karma start --watch",
-    "build:unmin": "./node_modules/webpack/bin/webpack.js",
-    "build:min": "./node_modules/webpack/bin/webpack.js --min",
+    "build:unmin": "./node_modules/webpack/bin/webpack.js --config webpack.config.build.unmin.js",
+    "build:min": "./node_modules/webpack/bin/webpack.js  --config webpack.config.build.min.js",
     "build": "npm run build:unmin && npm run build:min",
     "watch": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --port 8000"
   }
