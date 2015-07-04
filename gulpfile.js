@@ -5,6 +5,7 @@ var bowerFiles = require('main-bower-files');
 var series = require('stream-series');
 var runSequence = require('run-sequence');
 var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
 var ejs = require('ejs');
 
 gulp.task('watch', ['server'], function() {
@@ -15,13 +16,10 @@ gulp.task('watch', ['server'], function() {
 });
 
 gulp.task('server', function() {
-  $.connect.server({
-    root: ['./'],
-    port: 8000,
-    livereload: false
-  });
-
-  open('http://localhost:8000');
+  var PORT = 8000;
+  var HOST = 'localhost';
+  new WebpackDevServer(buildSource()).listen(PORT, HOST);
+  open('http://' + HOST + ':' + PORT);
 });
 
 var pkg = require('./bower.json');
@@ -46,10 +44,11 @@ function buildSource(production, done) {
     entryOnly: true
   }));
 
-  webpack({
-    entry: './src/angular-bluebird-promises.js',
+  return webpack({
+    cache: true,
+    entry: __dirname + '/src/angular-bluebird-promises.js',
     output: {
-      path: './dist',
+      path: __dirname + '/dist',
       filename: filename
     },
     externals: {
@@ -67,11 +66,11 @@ function buildSource(production, done) {
 }
 
 gulp.task('build:dev', function(done) {
-  return buildSource(false, done);
+  buildSource(false, done);
 });
 
 gulp.task('build:prod', function(done) {
-  return buildSource(true, done);
+  buildSource(true, done);
 });
 
 gulp.task('default', ['build:prod']);
