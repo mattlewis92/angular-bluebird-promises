@@ -48,6 +48,7 @@
     "test:watch": "./node_modules/karma/bin/karma start --watch",
     "build:dev": "./node_modules/webpack/bin/webpack.js",
     "build:prod": "./node_modules/webpack/bin/webpack.js --prod",
+    "build": "npm run build:dev && npm run build:prod",
     "watch": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --port 8000"
   }
 }
