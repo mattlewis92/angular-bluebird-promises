@@ -84,14 +84,13 @@ angular.module('mwl.example', ['mwl.bluebird']).run(function($q, $http) {
 
 ### Prepare your environment
 * Install [Node.js](http://nodejs.org/) and NPM (should come with)
-* Install global dev dependencies: `npm install -g gulp`
 * Install local dev dependencies: `npm install` while current directory is this repo
 
 ### Build
-Run `gulp` to build the project files in the dist folder
+Run `npm run build:prod` to build the project files in the dist folder
 
 ### Development server
-Run `gulp watch` to start a development server with livereload on port 8000.
+Run `npm run watch` to start a development server with hot reloading that will also run unit tests
 
 ## License
 
