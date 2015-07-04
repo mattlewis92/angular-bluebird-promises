@@ -4,7 +4,6 @@ var open = require('open');
 var bowerFiles = require('main-bower-files');
 var series = require('stream-series');
 var runSequence = require('run-sequence');
-var webpackStream = require('webpack-stream');
 var webpack = require('webpack');
 var ejs = require('ejs');
 
@@ -34,31 +33,32 @@ var banner = ['/**',
   ' */',
   ''].join('\n');
 
-gulp.task('webpack', function() {
+gulp.task('webpack', function(done) {
   var bannerCompiled = ejs.render(banner, {pkg: pkg});
-  return gulp.src('src/angular-bluebird-promises.js')
-    .pipe(webpackStream({
-      output: {
-        filename: 'angular-bluebird-promises.js'
-      },
-      externals: {
-        angular: 'angular',
-        bluebird: 'Promise'
-      },
-      devtool: 'source-map',
-      plugins: [
-        new webpack.BannerPlugin(bannerCompiled, {
-          raw: true,
-          entryOnly: true
-        })
-      ],
-      module: {
-        loaders: [
-          {test: /.*\.js$/, loaders: ['ng-annotate']}
-        ]
-      }
-    }))
-    .pipe(gulp.dest('dist'));
+
+  webpack({
+    entry: './src/angular-bluebird-promises.js',
+    output: {
+      path: './dist',
+      filename: 'angular-bluebird-promises.js'
+    },
+    externals: {
+      angular: 'angular',
+      bluebird: 'Promise'
+    },
+    devtool: 'source-map',
+    plugins: [
+      new webpack.BannerPlugin(bannerCompiled, {
+        raw: true,
+        entryOnly: true
+      })
+    ],
+    module: {
+      loaders: [
+        {test: /.*\.js$/, loaders: ['ng-annotate']}
+      ]
+    }
+  }, done);
 });
 
 gulp.task('build', ['webpack'], function() {

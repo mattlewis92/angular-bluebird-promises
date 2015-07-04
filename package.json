@@ -45,8 +45,7 @@
     "phantomjs": "~1.9.17",
     "run-sequence": "~1.1.0",
     "stream-series": "~0.1.1",
-    "webpack": "~1.10.0",
-    "webpack-stream": "~2.0.0"
+    "webpack": "~1.10.0"
   },
   "dependencies": {
     "angular": ">=1.2.0 <1.5",
