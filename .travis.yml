@@ -3,7 +3,7 @@ language: node_js
 node_js:
   - '0.12'
 
-script: npm run test:prod
+script: npm run test:min
 
 notifications:
   email: false
