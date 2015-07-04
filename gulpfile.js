@@ -93,29 +93,25 @@ gulp.task('build:prod', function(done) {
 
 gulp.task('default', ['watch']);
 
-function runTests(config, onDistCode, done) {
+function runTests(config, sourceFile, done) {
   config.configFile = __dirname + '/karma.conf.js';
   config.files = bowerFiles({includeDev: true});
-  if (onDistCode) {
-    config.files.push('dist/angular-bluebird-promises.min.js');
-  } else {
-    config.files.push('dist/angular-bluebird-promises.js');
-  }
+  config.files.push(sourceFile);
   config.files.push('test/angular-bluebird-promises.spec.js');
 
   karma.start(config, done);
 }
 
 gulp.task('test:dev', ['build:dev'], function(done) {
-  runTests({}, false, done);
+  runTests({}, 'dist/angular-bluebird-promises.js', done);
 });
 
 gulp.task('test:prod', ['build:prod'], function(done) {
-  runTests({}, true, done);
+  runTests({}, 'dist/angular-bluebird-promises.min.js', done);
 });
 
 gulp.task('test:watch', function(done) {
-  runTests({autoWatch: true, singleRun: false}, false, done);
+  runTests({autoWatch: true, singleRun: false}, 'dist/angular-bluebird-promises.js', done);
 });
 
 gulp.task('ci', ['test:prod']);
