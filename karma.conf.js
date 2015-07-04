@@ -3,7 +3,7 @@
 
 var webpackHelper = require('./webpackHelper');
 var WATCH = process.argv.indexOf('--watch') > -1;
-var PRODUCTION = process.argv.indexOf('--prod') > -1;
+var MIN = process.argv.indexOf('--min') > -1;
 
 module.exports = function(config) {
   config.set({
@@ -30,7 +30,7 @@ module.exports = function(config) {
       'test/*.js': ['webpack', 'sourcemap']
     },
 
-    webpack: webpackHelper.getKarmaConfig(PRODUCTION),
+    webpack: webpackHelper.getKarmaConfig(MIN),
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

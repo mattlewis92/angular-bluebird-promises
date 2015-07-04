@@ -33,7 +33,7 @@ function getBanner() {
   return ejs.render(banner, {pkg: pkg});
 }
 
-function getDevPlugins() {
+function getUnminPlugins() {
   var plugins = [];
   plugins.push(new webpack.BannerPlugin(getBanner(), {
     raw: true,
@@ -42,18 +42,18 @@ function getDevPlugins() {
   return plugins;
 }
 
-function getProdPlugins() {
+function getMinPlugins() {
   var plugins = [];
   plugins.push(new webpack.NoErrorsPlugin());
   plugins.push(new webpack.optimize.UglifyJsPlugin());
-  plugins = plugins.concat(getDevPlugins());
+  plugins = plugins.concat(getUnminPlugins());
   return plugins;
 }
 
-function getKarmaConfig(prod) {
+function getKarmaConfig(min) {
   var config = getBaseConfig();
   config.devtool = 'inline-source-map';
-  if (prod) {
+  if (min) {
     config.module.loaders = [{
       test: /.*src.*\.js$/,
       loaders: ['uglify'],
@@ -77,20 +77,20 @@ function getBaseBuildConfig() {
   return config;
 }
 
-function getDevConfig() {
+function getUnminConfig() {
   var config = getBaseBuildConfig();
   config.output.filename = 'angular-bluebird-promises.js';
-  config.plugins = getDevPlugins();
+  config.plugins = getUnminPlugins();
   return config;
 }
 
-function getProdConfig() {
+function getMinConfig() {
   var config = getBaseBuildConfig();
   config.output.filename = 'angular-bluebird-promises.min.js';
-  config.plugins = getProdPlugins();
+  config.plugins = getMinPlugins();
   return config;
 }
 
 module.exports.getKarmaConfig = getKarmaConfig;
-module.exports.getDevConfig = getDevConfig;
-module.exports.getProdConfig = getProdConfig;
+module.exports.getUnminConfig = getUnminConfig;
+module.exports.getMinConfig = getMinConfig;

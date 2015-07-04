@@ -1,7 +1,7 @@
 var open = require('open');
 var karma = require('karma');
 var webpackHelper = require('./webpackHelper');
-var config = process.argv.indexOf('--prod') > -1 ? webpackHelper.getProdConfig() : webpackHelper.getDevConfig();
+var config = process.argv.indexOf('--min') > -1 ? webpackHelper.getMinConfig() : webpackHelper.getUnminConfig();
 var isServer = process.env._.indexOf('webpack-dev-server') > -1;
 if (isServer) {
   delete config.externals;
