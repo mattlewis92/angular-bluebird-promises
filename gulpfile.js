@@ -11,7 +11,7 @@ var ejs = require('ejs');
 gulp.task('watch', ['server'], function() {
   $.livereload.listen();
   gulp.start('test:watch');
-  gulp.watch('src/*.js', ['eslint', 'build:dev']);
+  gulp.watch('src/*.js', ['build:dev']);
   gulp.watch(['index.html', 'dist/angular-bluebird-promises.js']).on('change', $.livereload.changed);
 });
 
@@ -37,12 +37,26 @@ function buildSource(production, done) {
 
   var plugins = [];
   if (production) {
+    plugins.push(new webpack.NoErrorsPlugin());
     plugins.push(new webpack.optimize.UglifyJsPlugin());
   }
   plugins.push(new webpack.BannerPlugin(bannerCompiled, {
     raw: true,
     entryOnly: true
   }));
+
+  var callback;
+  if (done) {
+    callback = function(err, stats) {
+      $.util.log('[webpack]', stats.toString());
+      for (var file in stats.compilation.assets) {
+        if (!stats.compilation.assets[file].emitted) {
+          return done(new Error(file + ' was not build as there was an error!'));
+        }
+      }
+      done(err);
+    }
+  }
 
   return webpack({
     cache: true,
@@ -58,11 +72,17 @@ function buildSource(production, done) {
     devtool: 'source-map',
     plugins: plugins,
     module: {
+      preLoaders: [
+        {test: /.*\.js$/, loaders: ['eslint'], exclude: /node_modules/}
+      ],
       loaders: [
-        {test: /.*\.js$/, loaders: ['ng-annotate']}
+        {test: /.*\.js$/, loaders: ['ng-annotate'], exclude: /node_modules/}
       ]
+    },
+    eslint: {
+      configFile: __dirname + '/.eslintrc'
     }
-  }, done);
+  }, callback);
 }
 
 gulp.task('build:dev', function(done) {
@@ -107,26 +127,6 @@ gulp.task('test:watch', function() {
   return runTests('watch');
 });
 
-function eslint(failOnError) {
-  var stream = gulp.src(['src/*.js'])
-    .pipe($.eslint())
-    .pipe($.eslint.format());
-
-  if (failOnError) {
-    return stream.pipe($.eslint.failOnError());
-  } else {
-    return stream;
-  }
-}
-
-gulp.task('eslint', function() {
-  return eslint();
-});
-
-gulp.task('ci:eslint', function() {
-  return eslint(true);
-});
-
 gulp.task('ci', function(done) {
-  runSequence('ci:eslint', 'build:prod', 'test:prod', done);
+  runSequence('build:prod', 'test:prod', done);
 });
