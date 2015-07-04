@@ -2,11 +2,10 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var open = require('open');
 var bowerFiles = require('main-bower-files');
-var series = require('stream-series');
-var runSequence = require('run-sequence');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var ejs = require('ejs');
+var karma = require('karma').server;
 
 gulp.task('watch', ['server'], function() {
   $.livereload.listen();
@@ -94,38 +93,29 @@ gulp.task('build:prod', function(done) {
 
 gulp.task('default', ['watch']);
 
-function runTests(action, onDistCode) {
-  var vendorJs = gulp.src(bowerFiles({includeDev: true}));
+function runTests(config, onDistCode, done) {
+  config.configFile = __dirname + '/karma.conf.js';
+  config.files = bowerFiles({includeDev: true});
   if (onDistCode) {
-    var appJs = gulp.src('dist/angular-bluebird-promises.min.js');
+    config.files.push('dist/angular-bluebird-promises.min.js');
   } else {
-    var appJs = gulp.src('dist/angular-bluebird-promises.js');
+    config.files.push('dist/angular-bluebird-promises.js');
   }
-  var test = gulp.src('test/angular-bluebird-promises.spec.js');
+  config.files.push('test/angular-bluebird-promises.spec.js');
 
-  return series(vendorJs, appJs, test)
-    .pipe($.karma({
-      configFile: 'karma.conf.js',
-      action: action
-    }));
+  karma.start(config, done);
 }
 
-gulp.task('test:dev', ['build:dev'], function() {
-  return runTests('run').on('error', function(err) {
-    throw err;
-  });
+gulp.task('test:dev', ['build:dev'], function(done) {
+  runTests({}, false, done);
 });
 
-gulp.task('test:prod', function() {
-  return runTests('run', true).on('error', function(err) {
-    throw err;
-  });
+gulp.task('test:prod', ['build:prod'], function(done) {
+  runTests({}, true, done);
 });
 
-gulp.task('test:watch', function() {
-  return runTests('watch');
+gulp.task('test:watch', function(done) {
+  runTests({autoWatch: true, singleRun: false}, false, done);
 });
 
-gulp.task('ci', function(done) {
-  runSequence('build:prod', 'test:prod', done);
-});
+gulp.task('ci', ['test:prod']);
