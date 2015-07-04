@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/mattlewis92/angular-bluebird-promises",
   "devDependencies": {
+    "angular-mocks": "~1.4.1",
     "ejs": "~2.3.2",
     "eslint": "~0.24.0",
     "eslint-loader": "~0.14.1",
@@ -30,17 +31,24 @@
     "karma-chai-plugins": "~0.6.0",
     "karma-mocha": "~0.2.0",
     "karma-phantomjs-launcher": "~0.2.0",
-    "main-bower-files": "~2.8.0",
+    "karma-sourcemap-loader": "~0.3.5",
+    "karma-webpack": "~1.5.1",
     "mocha": "~2.2.4",
     "ng-annotate-loader": "0.0.4",
     "node-libs-browser": "~0.5.2",
     "open": "0.0.5",
     "phantomjs": "~1.9.17",
+    "uglify-loader": "~1.2.0",
     "webpack": "~1.10.0",
     "webpack-dev-server": "~1.10.1"
   },
   "dependencies": {
     "angular": ">=1.2.0 <1.5",
     "bluebird": "^2.9.25"
+  },
+  "scripts": {
+    "test:dev": "./node_modules/karma/bin/karma start",
+    "test:prod": "./node_modules/karma/bin/karma start --prod",
+    "test:watch": "./node_modules/karma/bin/karma start --watch"
   }
 }

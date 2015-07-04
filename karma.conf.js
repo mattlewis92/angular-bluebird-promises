@@ -1,6 +1,10 @@
 // Karma configuration
 // Generated on Thu Mar 19 2015 17:35:54 GMT+0000 (GMT)
 
+var webpackHelper = require('./webpackHelper');
+var WATCH = process.argv.indexOf('--watch') > -1;
+var PRODUCTION = process.argv.indexOf('--prod') > -1;
+
 module.exports = function(config) {
   config.set({
 
@@ -13,6 +17,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'test/*.js'
     ],
 
     // list of files to exclude
@@ -22,7 +27,10 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'test/*.js': ['webpack', 'sourcemap']
     },
+
+    webpack: webpackHelper.getKarmaConfig(PRODUCTION),
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -40,7 +48,7 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: WATCH,
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
@@ -48,6 +56,6 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true
+    singleRun: !WATCH
   });
 };

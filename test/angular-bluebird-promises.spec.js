@@ -1,4 +1,14 @@
-beforeEach(module('mwl.bluebird'));
+'use strict';
+/*eslint-env mocha*/
+/*global expect, assert, sinon, inject*/
+/*eslint-disable no-unused-expressions*/
+
+var angular = require('angular');
+var Promise = require('bluebird');
+require('angular-mocks');
+require('./../src/angular-bluebird-promises.js');
+
+beforeEach(angular.mock.module('mwl.bluebird'));
 
 describe('$q', function() {
 
@@ -117,22 +127,24 @@ describe('$q', function() {
     it('should function as a promise constructor', function() {
 
       var resolve, reject;
-      new $q(function(_resolve, _reject) {
+      var promise = new $q(function(_resolve, _reject) {
         resolve = _resolve;
         reject = _reject;
       });
 
       assert.isFunction(resolve);
       assert.isFunction(reject);
+      assert.isFunction(promise.then);
+      assert.isFunction(promise.catch);
+      assert.isFunction(promise.finally);
 
     });
 
     it('should give a resolve value that resolves the promise', function() {
 
-      var resolve, reject, resolvedValue;
-      var promise = new $q(function(_resolve, _reject) {
+      var resolve, resolvedValue;
+      var promise = new $q(function(_resolve) {
         resolve = _resolve;
-        reject = _reject;
       });
 
       promise.then(function(_resolvedValue) {
@@ -148,9 +160,8 @@ describe('$q', function() {
 
     it('should give a reject value that rejects the promise', function() {
 
-      var resolve, reject, rejectedValue;
+      var reject, rejectedValue;
       var promise = new $q(function(_resolve, _reject) {
-        resolve = _resolve;
         reject = _reject;
       });
 
@@ -265,6 +276,5 @@ describe('$q', function() {
     });
 
   });
-
 
 });
