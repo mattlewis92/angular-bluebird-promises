@@ -2,9 +2,8 @@
 <html lang="en" ng-app="mwl.example">
 
   <head>
-    <script src="bower_components/bluebird/js/browser/bluebird.js"></script>
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="dist/angular-bluebird-promises.js"></script>
+    <script src="http://localhost:8000/webpack-dev-server.js"></script>
+    <script src="angular-bluebird-promises.js"></script>
     <script>
 
       angular.module('mwl.example', ['mwl.bluebird']).run(function ($q, $http, $log) {
