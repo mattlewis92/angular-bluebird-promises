@@ -23,7 +23,6 @@
     "ejs": "~2.3.2",
     "eslint": "~0.24.0",
     "eslint-loader": "~0.14.1",
-    "gulp": "~3.9.0",
     "karma": "~0.12.37",
     "karma-chai-plugins": "~0.6.0",
     "karma-mocha": "~0.2.0",
@@ -46,6 +45,9 @@
   "scripts": {
     "test:dev": "./node_modules/karma/bin/karma start",
     "test:prod": "./node_modules/karma/bin/karma start --prod",
-    "test:watch": "./node_modules/karma/bin/karma start --watch"
+    "test:watch": "./node_modules/karma/bin/karma start --watch",
+    "build:dev": "./node_modules/webpack/bin/webpack.js",
+    "build:prod": "./node_modules/webpack/bin/webpack.js --prod",
+    "watch": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --port 8000"
   }
 }
