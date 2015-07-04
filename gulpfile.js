@@ -10,7 +10,7 @@ var ejs = require('ejs');
 gulp.task('watch', ['server'], function() {
   $.livereload.listen();
   gulp.start('test:watch');
-  gulp.watch('src/*.js', ['eslint', 'webpack']);
+  gulp.watch('src/*.js', ['eslint', 'build:dev']);
   gulp.watch(['index.html', 'dist/angular-bluebird-promises.js']).on('change', $.livereload.changed);
 });
 
@@ -33,49 +33,48 @@ var banner = ['/**',
   ' */',
   ''].join('\n');
 
-gulp.task('webpack', function(done) {
+function buildSource(production, done) {
   var bannerCompiled = ejs.render(banner, {pkg: pkg});
+  var filename = production ? 'angular-bluebird-promises.min.js' : 'angular-bluebird-promises.js';
+
+  var plugins = [];
+  if (production) {
+    plugins.push(new webpack.optimize.UglifyJsPlugin());
+  }
+  plugins.push(new webpack.BannerPlugin(bannerCompiled, {
+    raw: true,
+    entryOnly: true
+  }));
 
   webpack({
     entry: './src/angular-bluebird-promises.js',
     output: {
       path: './dist',
-      filename: 'angular-bluebird-promises.js'
+      filename: filename
     },
     externals: {
       angular: 'angular',
       bluebird: 'Promise'
     },
     devtool: 'source-map',
-    plugins: [
-      new webpack.BannerPlugin(bannerCompiled, {
-        raw: true,
-        entryOnly: true
-      })
-    ],
+    plugins: plugins,
     module: {
       loaders: [
         {test: /.*\.js$/, loaders: ['ng-annotate']}
       ]
     }
   }, done);
+}
+
+gulp.task('build:dev', function(done) {
+  return buildSource(false, done);
 });
 
-gulp.task('build', ['webpack'], function() {
-
-  return gulp.src('dist/angular-bluebird-promises.js')
-    .pipe($.sourcemaps.init({
-      loadMaps: true
-    }))
-    .pipe($.rename('angular-bluebird-promises.min.js'))
-    .pipe($.uglify())
-    .pipe($.header(banner, { pkg : pkg } ))
-    .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest('dist'));
-
+gulp.task('build:prod', function(done) {
+  return buildSource(true, done);
 });
 
-gulp.task('default', ['build']);
+gulp.task('default', ['build:prod']);
 
 function runTests(action, onDistCode) {
   var vendorJs = gulp.src(bowerFiles({includeDev: true}));
@@ -93,13 +92,13 @@ function runTests(action, onDistCode) {
     }));
 }
 
-gulp.task('test:src', ['webpack'], function() {
+gulp.task('test:dev', ['build:dev'], function() {
   return runTests('run').on('error', function(err) {
     throw err;
   });
 });
 
-gulp.task('test:dist', function() {
+gulp.task('test:prod', function() {
   return runTests('run', true).on('error', function(err) {
     throw err;
   });
@@ -130,5 +129,5 @@ gulp.task('ci:eslint', function() {
 });
 
 gulp.task('ci', function(done) {
-  runSequence('ci:eslint', 'build', 'test:dist', done);
+  runSequence('ci:eslint', 'build:prod', 'test:prod', done);
 });
