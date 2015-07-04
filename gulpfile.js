@@ -59,7 +59,6 @@ function buildSource(production, done) {
   }
 
   return webpack({
-    cache: true,
     entry: __dirname + '/src/angular-bluebird-promises.js',
     output: {
       path: __dirname + '/dist',
@@ -93,7 +92,7 @@ gulp.task('build:prod', function(done) {
   buildSource(true, done);
 });
 
-gulp.task('default', ['build:prod']);
+gulp.task('default', ['watch']);
 
 function runTests(action, onDistCode) {
   var vendorJs = gulp.src(bowerFiles({includeDev: true}));
