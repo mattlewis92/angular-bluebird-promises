@@ -9,8 +9,8 @@ angular
   .constant('Bluebird', bluebird)
   .config(function($provide, Bluebird) {
 
-    //Make bluebird API compatible with angular's subset of $q
-    //Adapted from: https://gist.github.com/petkaantonov/8363789
+    //Make bluebird API compatible with angular's subset of Q
+    //Adapted from: https://gist.github.com/petkaantonov/8363789 and https://github.com/petkaantonov/bluebird-q
 
     Bluebird.defer = function() {
       var b = Bluebird.pending();
@@ -32,6 +32,12 @@ angular
         return originalAll.call(Bluebird, promises);
       }
 
+    };
+
+    var originalFinally = Bluebird.prototype.finally;
+    Bluebird.prototype.finally = function(finallyCallback, progressCallback) {
+      this.progressed(progressCallback);
+      return originalFinally.call(this, finallyCallback);
     };
 
     Bluebird.onPossiblyUnhandledRejection(angular.noop);

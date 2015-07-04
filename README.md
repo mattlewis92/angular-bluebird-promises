@@ -60,8 +60,6 @@ angular.module('mwl.bluebird').run(function($q, $log) {
 
 Simply use $q as you normally would. It will function exactly as before, however you will now have bluebirds additional API methods available as well on all promises throughout your angular app.
 
-Please note there is a slight difference between angulars $q and this implementation. Regular $q allows a notify callback to be passed as a second argument to .finally, however this project does not allow this. I would be happy to accept a PR though that adds this functionality (hint hint!)
-
 ## Example
 
 ```javascript

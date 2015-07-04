@@ -42,6 +42,26 @@ describe('$q', function() {
       expect(rejectedValue).to.equal('Fail');
     });
 
+    it('should call finally if the promise resolves', function() {
+      var deferred = $q.defer();
+      var promise = deferred.promise;
+      var finallyCb = sinon.spy();
+      promise.finally(finallyCb);
+      deferred.resolve();
+      $rootScope.$apply();
+      expect(finallyCb).to.have.been.calledOnce;
+    });
+
+    it('should call finally if the promise rejects', function() {
+      var deferred = $q.defer();
+      var promise = deferred.promise;
+      var finallyCb = sinon.spy();
+      promise.finally(finallyCb);
+      deferred.reject();
+      $rootScope.$apply();
+      expect(finallyCb).to.have.been.calledOnce;
+    });
+
     it('should allow then to be passed a rejection callback', function() {
 
       var deferred = $q.defer();
@@ -68,8 +88,7 @@ describe('$q', function() {
       expect(progressValue).to.equal('Progress');
     });
 
-    //I cant find any easy way to pass the progress function to the final argument of finally
-    /*it('should notify the promise on progress', function() {
+    it('should notify the promise on progress', function() {
       var deferred = $q.defer();
       var promise = deferred.promise;
       var notifyValues = [];
@@ -82,7 +101,7 @@ describe('$q', function() {
       deferred.notify('Progress2');
       $rootScope.$apply();
       expect(notifyValues).to.eql(['Progress', 'Progress2']);
-    });*/
+    });
 
     it('should have a promise property which is a promise', function() {
       var deferred = $q.defer();
