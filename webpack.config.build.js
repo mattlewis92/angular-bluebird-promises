@@ -18,7 +18,8 @@ module.exports = {
   entry: __dirname + '/src/angular-bluebird-promises.js',
   output: {
     path: __dirname + '/dist',
-    filename: MIN ? 'angular-bluebird-promises.min.js' : 'angular-bluebird-promises.js'
+    filename: MIN ? 'angular-bluebird-promises.min.js' : 'angular-bluebird-promises.js',
+    libraryTarget: 'umd'
   },
   externals: {
     angular: 'angular',
