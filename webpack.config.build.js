@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var ejs = require('ejs');
+var MIN = process.argv.indexOf('-p') > -1;
 
 function getBanner() {
   var pkg = require('./bower.json');
@@ -17,13 +18,13 @@ module.exports = {
   entry: __dirname + '/src/angular-bluebird-promises.js',
   output: {
     path: __dirname + '/dist',
-    filename: process.argv.indexOf('-p') > -1 ? 'angular-bluebird-promises.min.js' : 'angular-bluebird-promises.js'
+    filename: MIN ? 'angular-bluebird-promises.min.js' : 'angular-bluebird-promises.js'
   },
   externals: {
     angular: 'angular',
     bluebird: 'Promise'
   },
-  devtool: 'source-map',
+  devtool: MIN ? 'source-map' : null,
   module: {
     preLoaders: [{
       test: /.*\.js$/,
