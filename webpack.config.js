@@ -1,7 +1,14 @@
 var open = require('open');
 var karma = require('karma');
 
-open('http://localhost:' + 8000);
+var port = 8080;
+process.argv.forEach(function(arg, index) {
+  if (arg === '--port') {
+    port = process.argv[index + 1];
+  }
+});
+open('http://localhost:' + port);
+
 karma.server.start({
   configFile: __dirname + '/karma.conf.js',
   autoWatch: true,
