@@ -50,19 +50,6 @@ function getMinPlugins() {
   return plugins;
 }
 
-function getKarmaConfig(min) {
-  var config = getBaseConfig();
-  config.devtool = 'inline-source-map';
-  if (min) {
-    config.module.loaders = [{
-      test: /.*src.*\.js$/,
-      loaders: ['uglify'],
-      exclude: /node_modules/
-    }].concat(config.module.loaders);
-  }
-  return config;
-}
-
 function getBaseBuildConfig() {
   var config = getBaseConfig();
   config.entry = __dirname + '/src/angular-bluebird-promises.js';
@@ -91,6 +78,5 @@ function getMinConfig() {
   return config;
 }
 
-module.exports.getKarmaConfig = getKarmaConfig;
 module.exports.getUnminConfig = getUnminConfig;
 module.exports.getMinConfig = getMinConfig;
