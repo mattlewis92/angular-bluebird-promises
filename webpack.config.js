@@ -1,13 +1,8 @@
 var open = require('open');
 var karma = require('karma');
 
-var port = 8080;
-process.argv.forEach(function(arg, index) {
-  if (arg === '--port') {
-    port = process.argv[index + 1];
-  }
-});
-open('http://localhost:' + port);
+var PORT = 8000;
+open('http://localhost:' + PORT);
 
 karma.server.start({
   configFile: __dirname + '/karma.conf.js',
@@ -27,5 +22,9 @@ module.exports = {
       loaders: ['eslint'],
       exclude: /node_modules/
     }]
+  },
+  devServer: {
+    port: PORT,
+    inline: true
   }
 };

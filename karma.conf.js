@@ -35,7 +35,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/*.js'
+      'test/angular-bluebird-promises.spec.js'
     ],
 
     // list of files to exclude
@@ -45,7 +45,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'test/*.js': ['webpack', 'sourcemap']
+      'test/angular-bluebird-promises.spec.js': ['webpack', 'sourcemap']
     },
 
     webpack: webpackConfig,
