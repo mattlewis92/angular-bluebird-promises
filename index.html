@@ -13,8 +13,8 @@
         });
 
         var promises = [
-          $http.get('test/angular.json'),
-          $http.get('test/bluebird.json')
+          $http.get('node_modules/bluebird/package.json'),
+          $http.get('node_modules/angular/package.json')
         ];
 
         $q.all(promises).spread(function (angular, bluebird) {
