@@ -5,17 +5,22 @@ var WATCH = process.argv.indexOf('--watch') > -1;
 var MIN = process.argv.indexOf('--min') > -1;
 
 var webpackConfig = {
-  devtool: 'inline-source-map'
+  devtool: 'inline-source-map',
+  module: {
+    preLoaders: [{
+      test: /.*\.js$/,
+      loaders: ['eslint'],
+      exclude: /node_modules/
+    }]
+  }
 };
 
 if (MIN) {
-  webpackConfig.module = {
-    loaders: [{
-      test: /.*src.*\.js$/,
-      loaders: ['uglify', 'ng-annotate'],
-      exclude: /node_modules/
-    }]
-  };
+  webpackConfig.module.loaders = [{
+    test: /.*src.*\.js$/,
+    loaders: ['uglify', 'ng-annotate'],
+    exclude: /node_modules/
+  }];
 }
 
 module.exports = function(config) {

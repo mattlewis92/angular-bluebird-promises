@@ -1,7 +1,4 @@
 'use strict';
-/*eslint-env mocha*/
-/*global expect, assert, sinon, inject*/
-/*eslint-disable no-unused-expressions*/
 
 var angular = require('angular');
 var Promise = require('bluebird');

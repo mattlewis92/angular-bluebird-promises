@@ -36,9 +36,6 @@ module.exports = {
       exclude: /node_modules/
     }]
   },
-  eslint: {
-    configFile: __dirname + '/.eslintrc'
-  },
   plugins: [
     new webpack.NoErrorsPlugin(),
     new webpack.BannerPlugin(getBanner(), {

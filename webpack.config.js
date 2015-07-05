@@ -27,8 +27,5 @@ module.exports = {
       loaders: ['eslint'],
       exclude: /node_modules/
     }]
-  },
-  eslint: {
-    configFile: __dirname + '/.eslintrc'
   }
 };

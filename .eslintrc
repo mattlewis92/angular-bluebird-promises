@@ -26,11 +26,7 @@
     "max-depth": [2, 4],
     "max-len": [2, 160, 4]
   },
-  "globals": {
-    "angular": true
-  },
   "env": {
-    "browser": true,
     "node": true
   }
 }
