@@ -22,6 +22,7 @@
     "angular-mocks": ">=1.2.0 <1.5",
     "ejs": "~2.3.2",
     "eslint": "~0.24.0",
+    "eslint-config-mwl": "~0.1.0",
     "eslint-loader": "~0.14.1",
     "karma": "~0.12.37",
     "karma-chai-plugins": "~0.6.0",
