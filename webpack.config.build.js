@@ -23,7 +23,12 @@ module.exports = {
   },
   externals: {
     angular: 'angular',
-    bluebird: 'Promise'
+    bluebird: {
+      root: 'Promise',
+      commonjs: 'bluebird',
+      commonjs2: 'bluebird',
+      amd: 'bluebird'
+    }
   },
   devtool: MIN ? 'source-map' : null,
   module: {
