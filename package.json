@@ -39,7 +39,7 @@
     "webpack": "~1.10.0",
     "webpack-dev-server": "~1.10.1"
   },
-  "dependencies": {
+  "peerDependencies": {
     "angular": ">=1.2.0 <1.5",
     "bluebird": "^2.9.25"
   },
