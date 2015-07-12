@@ -91,7 +91,7 @@ angular.module('mwl.example', ['mwl.bluebird']).run(function($q, $http) {
 Run `npm run build` to build the project files in the dist folder
 
 ### Development server
-Run `npm run dev` to start a development server with auto reload that will also run unit tests
+Run `npm start` to start a development server with auto reload that will also run unit tests
 
 ## License
 

@@ -44,12 +44,13 @@
     "bluebird": "^2.9.25"
   },
   "scripts": {
-    "test:unmin": "./node_modules/karma/bin/karma start",
-    "test:min": "./node_modules/karma/bin/karma start --min",
-    "test:watch": "./node_modules/karma/bin/karma start --watch",
-    "build:unmin": "./node_modules/webpack/bin/webpack.js --config webpack.config.build.js",
-    "build:min": "./node_modules/webpack/bin/webpack.js -p --config webpack.config.build.js",
+    "test:unmin": "karma start",
+    "test:min": "karma start --min",
+    "test:watch": "karma start --watch",
+    "test": "npm run test:min",
+    "build:unmin": "webpack --config webpack.config.build.js",
+    "build:min": "webpack -p --config webpack.config.build.js",
     "build": "npm run build:unmin && npm run build:min",
-    "dev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+    "start": "webpack-dev-server"
   }
 }
