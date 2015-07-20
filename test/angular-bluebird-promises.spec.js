@@ -1,7 +1,6 @@
 'use strict';
 
 var angular = require('angular');
-var Promise = require('bluebird');
 require('angular-mocks');
 require('./../src/angular-bluebird-promises.js');
 
@@ -124,7 +123,7 @@ describe('$q', function() {
     it('should function as a promise constructor', function() {
 
       var resolve, reject;
-      var promise = new $q(function(_resolve, _reject) {
+      var promise = $q(function(_resolve, _reject) {
         resolve = _resolve;
         reject = _reject;
       });
@@ -140,7 +139,7 @@ describe('$q', function() {
     it('should give a resolve value that resolves the promise', function() {
 
       var resolve, resolvedValue;
-      var promise = new $q(function(_resolve) {
+      var promise = $q(function(_resolve) {
         resolve = _resolve;
       });
 
@@ -158,7 +157,7 @@ describe('$q', function() {
     it('should give a reject value that rejects the promise', function() {
 
       var reject, rejectedValue;
-      var promise = new $q(function(_resolve, _reject) {
+      var promise = $q(function(_resolve, _reject) {
         reject = _reject;
       });
 
@@ -257,10 +256,6 @@ describe('$q', function() {
       $rootScope.$apply();
       expect(resolvedValue).to.equal('Success');
 
-    });
-
-    it('$q should be bluebird', function() {
-      expect($q).to.eql(Promise);
     });
 
   });
