@@ -1,6 +1,6 @@
 /**
  * angular-bluebird-promises - Replaces $q with bluebirds promise API
- * @version v0.5.2
+ * @version v0.5.3
  * @link https://github.com/mattlewis92/angular-bluebird-promises
  * @license MIT
  */
@@ -64,52 +64,64 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	var angular = __webpack_require__(1);
-	var bluebird = __webpack_require__(2);
+	var Promise = __webpack_require__(2);
 	var MODULE_NAME = 'mwl.bluebird';
+
+	// In regards to: https://github.com/petkaantonov/bluebird#for-library-authors
+	// My reasoning behind not doing this is to prevent bundling bluebird code with this library
+
+	function $qBluebird(resolve, reject) {
+	  return new Promise(resolve, reject);
+	}
+
+	$qBluebird.prototype = Promise.prototype;
+
+	angular.extend($qBluebird, Promise);
+
+	//Make bluebird API compatible with angular's subset of Q
+	//Adapted from: https://gist.github.com/petkaantonov/8363789 and https://github.com/petkaantonov/bluebird-q
+
+	$qBluebird.defer = function() {
+	  var b = $qBluebird.pending();
+	  b.resolve = angular.bind(b, b.fulfill);
+	  b.reject = angular.bind(b, b.reject);
+	  b.notify = angular.bind(b, b.progress);
+	  return b;
+	};
+
+	$qBluebird.reject = $qBluebird.rejected;
+	$qBluebird.when = $qBluebird.cast;
+
+	var originalAll = $qBluebird.all;
+	$qBluebird.all = function(promises) {
+
+	  if (angular.isObject(promises) && !angular.isArray(promises)) {
+	    return $qBluebird.props(promises);
+	  } else {
+	    return originalAll.call($qBluebird, promises);
+	  }
+
+	};
+
+	var originalFinally = $qBluebird.prototype.finally;
+	$qBluebird.prototype.finally = function(finallyCallback, progressCallback) {
+	  this.progressed(progressCallback);
+	  return originalFinally.call(this, finallyCallback);
+	};
+
+	$qBluebird.onPossiblyUnhandledRejection(angular.noop);
 
 	angular
 	  .module(MODULE_NAME, [])
-	  .constant('Bluebird', bluebird)
+	  .constant('Bluebird', $qBluebird)
 	  .config(["$provide", "Bluebird", function($provide, Bluebird) {
-
-	    //Make bluebird API compatible with angular's subset of Q
-	    //Adapted from: https://gist.github.com/petkaantonov/8363789 and https://github.com/petkaantonov/bluebird-q
-
-	    Bluebird.defer = function() {
-	      var b = Bluebird.pending();
-	      b.resolve = angular.bind(b, b.fulfill);
-	      b.reject = angular.bind(b, b.reject);
-	      b.notify = angular.bind(b, b.progress);
-	      return b;
-	    };
-
-	    Bluebird.reject = Bluebird.rejected;
-	    Bluebird.when = Bluebird.cast;
-
-	    var originalAll = Bluebird.all;
-	    Bluebird.all = function(promises) {
-
-	      if (angular.isObject(promises) && !angular.isArray(promises)) {
-	        return Bluebird.props(promises);
-	      } else {
-	        return originalAll.call(Bluebird, promises);
-	      }
-
-	    };
-
-	    var originalFinally = Bluebird.prototype.finally;
-	    Bluebird.prototype.finally = function(finallyCallback, progressCallback) {
-	      this.progressed(progressCallback);
-	      return originalFinally.call(this, finallyCallback);
-	    };
-
-	    Bluebird.onPossiblyUnhandledRejection(angular.noop);
 
 	    $provide.decorator('$q', function() {
 	      return Bluebird;
 	    });
 
-	  }]).run(["$rootScope", "Bluebird", function($rootScope, Bluebird) {
+	  }])
+	  .run(["$rootScope", "Bluebird", function($rootScope, Bluebird) {
 
 	    Bluebird.setScheduler(function(cb) {
 	      $rootScope.$evalAsync(cb);
