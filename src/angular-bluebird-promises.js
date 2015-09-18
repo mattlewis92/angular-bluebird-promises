@@ -51,19 +51,19 @@ $qBluebird.onPossiblyUnhandledRejection(angular.noop);
 angular
   .module(MODULE_NAME, [])
   .constant('Bluebird', $qBluebird)
-  .config(function($provide, Bluebird) {
+  .config(['$provide', 'Bluebird', function($provide, Bluebird) {
 
     $provide.decorator('$q', function() {
       return Bluebird;
     });
 
-  })
-  .run(function($rootScope, Bluebird) {
+  }])
+  .run(['$rootScope', 'Bluebird', function($rootScope, Bluebird) {
 
     Bluebird.setScheduler(function(cb) {
       $rootScope.$evalAsync(cb);
     });
 
-  });
+  }]);
 
 module.exports = MODULE_NAME;
