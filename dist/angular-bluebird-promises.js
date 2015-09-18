@@ -114,14 +114,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	angular
 	  .module(MODULE_NAME, [])
 	  .constant('Bluebird', $qBluebird)
-	  .config(["$provide", "Bluebird", function($provide, Bluebird) {
+	  .config(['$provide', 'Bluebird', function($provide, Bluebird) {
 
 	    $provide.decorator('$q', function() {
 	      return Bluebird;
 	    });
 
 	  }])
-	  .run(["$rootScope", "Bluebird", function($rootScope, Bluebird) {
+	  .run(['$rootScope', 'Bluebird', function($rootScope, Bluebird) {
 
 	    Bluebird.setScheduler(function(cb) {
 	      $rootScope.$evalAsync(cb);
