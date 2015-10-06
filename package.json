@@ -2,6 +2,7 @@
   "name": "angular-bluebird-promises",
   "version": "0.5.4",
   "description": "Replaces $q with bluebirds promise API",
+  "main": "src/angular-bluebird-promises.js",
   "browser": "dist/angular-bluebird-promises.js",
   "repository": {
     "type": "git",
