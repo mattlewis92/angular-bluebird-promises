@@ -57,6 +57,16 @@ angular.module('mwl.bluebird').run(function($q, $log) {
 });
 ```
 
+If using the [ui-router](https://github.com/angular-ui/ui-router) this will produce some noise. To get around this you can do something like:
+```javascript
+$q.onPossiblyUnhandledRejection(function(exception) {
+  if (exception.message.match(/transition (superseded|prevented|aborted|failed)/)) {
+    return;
+  }
+  // Handle exception
+});
+```
+
 ## Usage
 
 Simply use $q as you normally would. It will function exactly as before, however you will now have bluebirds additional API methods available as well on all promises throughout your angular app.
