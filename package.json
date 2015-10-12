@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/mattlewis92/angular-bluebird-promises",
   "devDependencies": {
-    "angular-mocks": ">=1.2.0 <1.5",
+    "angular-mocks": ">=1.2.0",
     "ejs": "~2.3.2",
     "eslint": "~1.4.3",
     "eslint-config-mwl": "~0.3.0",
@@ -40,7 +40,7 @@
     "webpack-dev-server": "~1.11.0"
   },
   "peerDependencies": {
-    "angular": ">=1.2.0 <1.5",
+    "angular": ">=1.2.0",
     "bluebird": "^2.9.25"
   },
   "scripts": {
