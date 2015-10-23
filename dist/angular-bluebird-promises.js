@@ -1,6 +1,6 @@
 /**
  * angular-bluebird-promises - Replaces $q with bluebirds promise API
- * @version v0.5.4
+ * @version v0.5.6
  * @link https://github.com/mattlewis92/angular-bluebird-promises
  * @license MIT
  */
@@ -129,7 +129,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  }]);
 
-	module.exports = MODULE_NAME;
+	module.exports = [MODULE_NAME];
 
 
 /***/ },
