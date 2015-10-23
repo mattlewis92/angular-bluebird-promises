@@ -66,4 +66,4 @@ angular
 
   });
 
-module.exports = MODULE_NAME;
+module.exports = [MODULE_NAME];
