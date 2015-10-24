@@ -1,19 +1,18 @@
 /**
  * angular-bluebird-promises - Replaces $q with bluebirds promise API
- * @version v0.5.5
+ * @version v0.5.6
  * @link https://github.com/mattlewis92/angular-bluebird-promises
  * @license MIT
  */
-
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory(require("angular"), require("bluebird"));
 	else if(typeof define === 'function' && define.amd)
 		define(["angular", "bluebird"], factory);
-	else {
-		var a = typeof exports === 'object' ? factory(require("angular"), require("bluebird")) : factory(root["angular"], root["Promise"]);
-		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
-	}
+	else if(typeof exports === 'object')
+		exports["angularBluebirdPromisesModuleName"] = factory(require("angular"), require("bluebird"));
+	else
+		root["angularBluebirdPromisesModuleName"] = factory(root["angular"], root["Promise"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
