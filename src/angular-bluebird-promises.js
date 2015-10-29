@@ -2,7 +2,6 @@
 
 var angular = require('angular');
 var Promise = require('bluebird');
-var MODULE_NAME = 'mwl.bluebird';
 
 // In regards to: https://github.com/petkaantonov/bluebird#for-library-authors
 // My reasoning behind not doing this is to prevent bundling bluebird code with this library
@@ -48,8 +47,8 @@ $qBluebird.prototype.finally = function(finallyCallback, progressCallback) {
 
 $qBluebird.onPossiblyUnhandledRejection(angular.noop);
 
-angular
-  .module(MODULE_NAME, [])
+var ngModule = angular
+  .module('mwl.bluebird', [])
   .constant('Bluebird', $qBluebird)
   .config(function($provide, Bluebird) {
 
@@ -66,4 +65,4 @@ angular
 
   });
 
-module.exports = MODULE_NAME;
+module.exports = ngModule.name;
