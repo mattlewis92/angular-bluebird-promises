@@ -12,7 +12,7 @@ const webpackConfig = {
     }],
     loaders: [{
       test: /\.js$/,
-      loader: 'babel?presets[]=es2015&plugins[]=transform-runtime',
+      loader: 'babel?presets[]=es2015',
       exclude: /node_modules/
     }]
   }

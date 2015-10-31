@@ -10,7 +10,7 @@ function $qBluebird(resolve, reject) {
 
 $qBluebird.prototype = Promise.prototype;
 
-Object.assign($qBluebird, Promise);
+angular.extend($qBluebird, Promise);
 
 //Make bluebird API compatible with angular's subset of Q
 //Adapted from: https://gist.github.com/petkaantonov/8363789 and https://github.com/petkaantonov/bluebird-q
