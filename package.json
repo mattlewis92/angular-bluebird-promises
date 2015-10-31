@@ -20,6 +20,7 @@
   "homepage": "https://github.com/mattlewis92/angular-bluebird-promises",
   "devDependencies": {
     "angular-mocks": ">=1.2.0",
+    "bluebird": "~3.0.2",
     "eslint": "~1.8.0",
     "eslint-config-mwl": "~0.3.0",
     "eslint-loader": "~1.1.0",
@@ -40,7 +41,7 @@
   },
   "peerDependencies": {
     "angular": ">=1.2.0",
-    "bluebird": "^2.9.25"
+    "bluebird": ">=2.0.0"
   },
   "scripts": {
     "test:unmin": "karma start",
