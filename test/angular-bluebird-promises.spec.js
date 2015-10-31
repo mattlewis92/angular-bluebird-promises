@@ -43,9 +43,10 @@ describe('$q', function() {
       promise.catch(function(value) {
         rejectedValue = value;
       });
-      deferred.reject('Fail');
+      var rejectWith = new Error('Fail');
+      deferred.reject(rejectWith);
       $rootScope.$apply();
-      expect(rejectedValue).to.equal('Fail');
+      expect(rejectedValue).to.equal(rejectWith);
     });
 
     it('should call finally if the promise resolves', function() {
@@ -63,7 +64,7 @@ describe('$q', function() {
       var promise = deferred.promise;
       var finallyCb = sinon.spy();
       promise.finally(finallyCb);
-      deferred.reject();
+      deferred.reject(new Error());
       $rootScope.$apply();
       expect(finallyCb).to.have.been.calledOnce;
     });
@@ -76,9 +77,10 @@ describe('$q', function() {
       promise.then(angular.noop, function(value) {
         rejectedValue = value;
       });
-      deferred.reject('Fail');
+      var rejectWith = new Error('Fail');
+      deferred.reject(rejectWith);
       $rootScope.$apply();
-      expect(rejectedValue).to.equal('Fail');
+      expect(rejectedValue).to.equal(rejectWith);
     });
 
     it('should allow then to be passed a notify callback', function() {
@@ -165,10 +167,12 @@ describe('$q', function() {
         rejectedValue = _rejectedValue;
       });
 
-      reject('Reject');
+      var rejectWith = new Error('Reject');
+
+      reject(rejectWith);
 
       $rootScope.$apply();
-      expect(rejectedValue).to.equal('Reject');
+      expect(rejectedValue).to.equal(rejectWith);
 
     });
 
@@ -178,12 +182,13 @@ describe('$q', function() {
 
     it('should wrap a value as a promise which rejects', function() {
 
-      var rejectedPromise = $q.reject('Reject'), rejectedValue;
+      var rejectWith = new Error('Reject');
+      var rejectedPromise = $q.reject(rejectWith), rejectedValue;
       rejectedPromise.catch(function(_rejectedValue) {
         rejectedValue = _rejectedValue;
       });
       $rootScope.$apply();
-      expect(rejectedValue).to.equal('Reject');
+      expect(rejectedValue).to.equal(rejectWith);
 
     });
 
