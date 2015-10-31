@@ -1,7 +1,5 @@
-'use strict';
-
-var angular = require('angular');
-var Promise = require('bluebird');
+import angular from 'angular';
+import Promise from 'bluebird';
 
 // In regards to: https://github.com/petkaantonov/bluebird#for-library-authors
 // My reasoning behind not doing this is to prevent bundling bluebird code with this library
@@ -12,22 +10,20 @@ function $qBluebird(resolve, reject) {
 
 $qBluebird.prototype = Promise.prototype;
 
-angular.extend($qBluebird, Promise);
+Object.assign($qBluebird, Promise);
 
 //Make bluebird API compatible with angular's subset of Q
 //Adapted from: https://gist.github.com/petkaantonov/8363789 and https://github.com/petkaantonov/bluebird-q
 
 $qBluebird.defer = function() {
-  var deferred = {};
+  const deferred = {};
   deferred.promise = $qBluebird(function(resolve, reject) {
     deferred.resolve = resolve;
     deferred.reject = reject;
   });
   deferred.promise.progressCallbacks = [];
   deferred.notify = function(progressValue) {
-    deferred.promise.progressCallbacks.forEach(function(cb) {
-      cb(progressValue);
-    });
+    deferred.promise.progressCallbacks.forEach(cb => cb(progressValue));
   };
   return deferred;
 };
@@ -35,26 +31,26 @@ $qBluebird.defer = function() {
 $qBluebird.reject = $qBluebird.rejected;
 $qBluebird.when = $qBluebird.cast;
 
-var originalAll = $qBluebird.all;
+const originalAll = $qBluebird.all;
 $qBluebird.all = function(promises) {
 
-  if (angular.isObject(promises) && !angular.isArray(promises)) {
+  if (typeof promises === 'object' && !Array.isArray(promises)) {
     return $qBluebird.props(promises);
   } else {
-    return originalAll.call($qBluebird, promises);
+    return originalAll(promises);
   }
 
 };
 
-var originalThen = $qBluebird.prototype.then;
+const originalThen = $qBluebird.prototype.then;
 $qBluebird.prototype.then = function(fulfilledHandler, rejectedHandler, progressHandler) {
   if (this.progressCallbacks) {
     this.progressCallbacks.push(progressHandler);
   }
-  return originalThen.apply(this, arguments);
+  return originalThen.call(this, fulfilledHandler, rejectedHandler, progressHandler);
 };
 
-var originalFinally = $qBluebird.prototype.finally;
+const originalFinally = $qBluebird.prototype.finally;
 $qBluebird.prototype.finally = function(finallyHandler, progressHandler) {
   if (this.progressCallbacks) {
     this.progressCallbacks.push(progressHandler);
@@ -64,7 +60,7 @@ $qBluebird.prototype.finally = function(finallyHandler, progressHandler) {
 
 $qBluebird.onPossiblyUnhandledRejection(angular.noop);
 
-var ngModule = angular
+const ngModule = angular
   .module('mwl.bluebird', [])
   .constant('Bluebird', $qBluebird)
   .config(function($provide, Bluebird) {
@@ -76,10 +72,8 @@ var ngModule = angular
   })
   .run(function($rootScope, Bluebird) {
 
-    Bluebird.setScheduler(function(cb) {
-      $rootScope.$evalAsync(cb);
-    });
+    Bluebird.setScheduler((cb) => $rootScope.$evalAsync(cb));
 
   });
 
-module.exports = ngModule.name;
+export default ngModule.name;
