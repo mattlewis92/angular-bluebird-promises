@@ -7,7 +7,12 @@ const webpackConfig = {
   module: {
     preLoaders: [{
       test: /.*\.js$/,
-      loaders: ['eslint'],
+      loader: 'eslint',
+      exclude: /node_modules/
+    }],
+    loaders: [{
+      test: /\.js$/,
+      loader: 'babel?presets[]=es2015',
       exclude: /node_modules/
     }]
   }

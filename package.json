@@ -20,6 +20,9 @@
   "homepage": "https://github.com/mattlewis92/angular-bluebird-promises",
   "devDependencies": {
     "angular-mocks": ">=1.2.0",
+    "babel-core": "~6.0.14",
+    "babel-loader": "~6.0.0",
+    "babel-preset-es2015": "~6.0.14",
     "bluebird": "~3.0.2",
     "eslint": "~1.8.0",
     "eslint-config-mwl": "~0.3.0",
