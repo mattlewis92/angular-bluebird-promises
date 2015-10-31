@@ -18,11 +18,13 @@ angular.extend($qBluebird, Promise);
 //Adapted from: https://gist.github.com/petkaantonov/8363789 and https://github.com/petkaantonov/bluebird-q
 
 $qBluebird.defer = function() {
-  var b = $qBluebird.pending();
-  b.resolve = angular.bind(b, b.fulfill);
-  b.reject = angular.bind(b, b.reject);
-  b.notify = angular.bind(b, b.progress);
-  return b;
+  var deferred = {};
+  deferred.promise = $qBluebird(function(resolve, reject) {
+    deferred.resolve = resolve;
+    deferred.reject = reject;
+  });
+  deferred.notify = angular.bind(deferred.promise, deferred.promise._progress); //eslint-disable-line no-underscore-dangle
+  return deferred;
 };
 
 $qBluebird.reject = $qBluebird.rejected;
