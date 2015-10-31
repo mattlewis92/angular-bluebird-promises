@@ -23,7 +23,14 @@ $qBluebird.defer = function() {
     deferred.resolve = resolve;
     deferred.reject = reject;
   });
-  deferred.notify = angular.bind(deferred.promise, deferred.promise._progress); //eslint-disable-line no-underscore-dangle
+  deferred.promise.progressCallbacks = [];
+  deferred.notify = function(progressValue) {
+    if (!deferred.promise._isFollowingOrFulfilledOrRejected()) { //eslint-disable-line no-underscore-dangle
+      deferred.promise.progressCallbacks.forEach(function(cb) {
+        cb(progressValue);
+      });
+    }
+  };
   return deferred;
 };
 
@@ -41,10 +48,20 @@ $qBluebird.all = function(promises) {
 
 };
 
+var originalThen = $qBluebird.prototype.then;
+$qBluebird.prototype.then = function(fulfilledHandler, rejectedHandler, progressHandler) {
+  if (this.progressCallbacks) {
+    this.progressCallbacks.push(progressHandler);
+  }
+  return originalThen.apply(this, arguments);
+};
+
 var originalFinally = $qBluebird.prototype.finally;
-$qBluebird.prototype.finally = function(finallyCallback, progressCallback) {
-  this.progressed(progressCallback);
-  return originalFinally.call(this, finallyCallback);
+$qBluebird.prototype.finally = function(finallyHandler, progressHandler) {
+  if (this.progressCallbacks) {
+    this.progressCallbacks.push(progressHandler);
+  }
+  return originalFinally.call(this, finallyHandler);
 };
 
 $qBluebird.onPossiblyUnhandledRejection(angular.noop);
