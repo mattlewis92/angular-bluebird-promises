@@ -25,11 +25,9 @@ $qBluebird.defer = function() {
   });
   deferred.promise.progressCallbacks = [];
   deferred.notify = function(progressValue) {
-    if (!deferred.promise._isFollowingOrFulfilledOrRejected()) { //eslint-disable-line no-underscore-dangle
-      deferred.promise.progressCallbacks.forEach(function(cb) {
-        cb(progressValue);
-      });
-    }
+    deferred.promise.progressCallbacks.forEach(function(cb) {
+      cb(progressValue);
+    });
   };
   return deferred;
 };
