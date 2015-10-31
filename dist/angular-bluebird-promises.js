@@ -1,6 +1,6 @@
 /**
  * angular-bluebird-promises - Replaces $q with bluebirds promise API
- * @version v0.5.6
+ * @version v0.6.0
  * @link https://github.com/mattlewis92/angular-bluebird-promises
  * @license MIT
  */
@@ -62,74 +62,95 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var angular = __webpack_require__(1);
-	var Promise = __webpack_require__(2);
-	var MODULE_NAME = 'mwl.bluebird';
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _angular = __webpack_require__(1);
+
+	var _angular2 = _interopRequireDefault(_angular);
+
+	var _bluebird = __webpack_require__(2);
+
+	var _bluebird2 = _interopRequireDefault(_bluebird);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _typeof(obj) { return obj && obj.constructor === Symbol ? "symbol" : typeof obj; }
 
 	// In regards to: https://github.com/petkaantonov/bluebird#for-library-authors
 	// My reasoning behind not doing this is to prevent bundling bluebird code with this library
 
 	function $qBluebird(resolve, reject) {
-	  return new Promise(resolve, reject);
+	  return new _bluebird2.default(resolve, reject);
 	}
 
-	$qBluebird.prototype = Promise.prototype;
+	$qBluebird.prototype = _bluebird2.default.prototype;
 
-	angular.extend($qBluebird, Promise);
+	_angular2.default.extend($qBluebird, _bluebird2.default);
 
 	//Make bluebird API compatible with angular's subset of Q
 	//Adapted from: https://gist.github.com/petkaantonov/8363789 and https://github.com/petkaantonov/bluebird-q
 
-	$qBluebird.defer = function() {
-	  var b = $qBluebird.pending();
-	  b.resolve = angular.bind(b, b.fulfill);
-	  b.reject = angular.bind(b, b.reject);
-	  b.notify = angular.bind(b, b.progress);
-	  return b;
+	$qBluebird.defer = function () {
+	  var deferred = {};
+	  deferred.promise = $qBluebird(function (resolve, reject) {
+	    deferred.resolve = resolve;
+	    deferred.reject = reject;
+	  });
+	  deferred.promise.progressCallbacks = [];
+	  deferred.notify = function (progressValue) {
+	    deferred.promise.progressCallbacks.forEach(function (cb) {
+	      return cb(progressValue);
+	    });
+	  };
+	  return deferred;
 	};
 
 	$qBluebird.reject = $qBluebird.rejected;
 	$qBluebird.when = $qBluebird.cast;
 
 	var originalAll = $qBluebird.all;
-	$qBluebird.all = function(promises) {
+	$qBluebird.all = function (promises) {
 
-	  if (angular.isObject(promises) && !angular.isArray(promises)) {
+	  if ((typeof promises === 'undefined' ? 'undefined' : _typeof(promises)) === 'object' && !Array.isArray(promises)) {
 	    return $qBluebird.props(promises);
 	  } else {
-	    return originalAll.call($qBluebird, promises);
+	    return originalAll(promises);
 	  }
+	};
 
+	var originalThen = $qBluebird.prototype.then;
+	$qBluebird.prototype.then = function (fulfilledHandler, rejectedHandler, progressHandler) {
+	  if (this.progressCallbacks) {
+	    this.progressCallbacks.push(progressHandler);
+	  }
+	  return originalThen.call(this, fulfilledHandler, rejectedHandler, progressHandler);
 	};
 
 	var originalFinally = $qBluebird.prototype.finally;
-	$qBluebird.prototype.finally = function(finallyCallback, progressCallback) {
-	  this.progressed(progressCallback);
-	  return originalFinally.call(this, finallyCallback);
+	$qBluebird.prototype.finally = function (finallyHandler, progressHandler) {
+	  if (this.progressCallbacks) {
+	    this.progressCallbacks.push(progressHandler);
+	  }
+	  return originalFinally.call(this, finallyHandler);
 	};
 
-	$qBluebird.onPossiblyUnhandledRejection(angular.noop);
+	$qBluebird.onPossiblyUnhandledRejection(_angular2.default.noop);
 
-	angular
-	  .module(MODULE_NAME, [])
-	  .constant('Bluebird', $qBluebird)
-	  .config(["$provide", "Bluebird", function($provide, Bluebird) {
+	var ngModule = _angular2.default.module('mwl.bluebird', []).constant('Bluebird', $qBluebird).config(["$provide", "Bluebird", function ($provide, Bluebird) {
 
-	    $provide.decorator('$q', function() {
-	      return Bluebird;
-	    });
+	  $provide.decorator('$q', function () {
+	    return Bluebird;
+	  });
+	}]).run(["$rootScope", "Bluebird", function ($rootScope, Bluebird) {
 
-	  }])
-	  .run(["$rootScope", "Bluebird", function($rootScope, Bluebird) {
+	  Bluebird.setScheduler(function (cb) {
+	    return $rootScope.$evalAsync(cb);
+	  });
+	}]);
 
-	    Bluebird.setScheduler(function(cb) {
-	      $rootScope.$evalAsync(cb);
-	    });
-
-	  }]);
-
-	module.exports = MODULE_NAME;
-
+	exports.default = ngModule.name;
 
 /***/ },
 /* 1 */
