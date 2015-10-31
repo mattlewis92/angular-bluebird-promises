@@ -1,10 +1,8 @@
-// Karma configuration
-// Generated on Thu Mar 19 2015 17:35:54 GMT+0000 (GMT)
+'use strict';
 
-var WATCH = process.argv.indexOf('--watch') > -1;
-var MIN = process.argv.indexOf('--min') > -1;
+const WATCH = process.argv.indexOf('--watch') > -1;
 
-var webpackConfig = {
+const webpackConfig = {
   devtool: 'inline-source-map',
   module: {
     preLoaders: [{
@@ -14,14 +12,6 @@ var webpackConfig = {
     }]
   }
 };
-
-if (MIN) {
-  webpackConfig.module.loaders = [{
-    test: /.*src.*\.js$/,
-    loaders: ['uglify', 'ng-annotate'],
-    exclude: /node_modules/
-  }];
-}
 
 module.exports = function(config) {
   config.set({
