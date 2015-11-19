@@ -24,6 +24,6 @@
   ],
   "dependencies": {
     "angular": ">=1.2.0",
-    "bluebird": "^2.3.11"
+    "bluebird": ">=2.0.0"
   }
 }
