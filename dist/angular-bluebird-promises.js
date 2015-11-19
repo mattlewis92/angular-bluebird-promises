@@ -1,6 +1,6 @@
 /**
  * angular-bluebird-promises - Replaces $q with bluebirds promise API
- * @version v0.6.1
+ * @version v0.6.2
  * @link https://github.com/mattlewis92/angular-bluebird-promises
  * @license MIT
  */
@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _typeof(obj) { return obj && obj.constructor === Symbol ? "symbol" : typeof obj; }
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 
 	// In regards to: https://github.com/petkaantonov/bluebird#for-library-authors
 	// My reasoning behind not doing this is to prevent bundling bluebird code with this library
