@@ -23,7 +23,7 @@ $qBluebird.defer = function() {
   });
   deferred.promise.progressCallbacks = [];
   deferred.notify = function(progressValue) {
-    deferred.promise.progressCallbacks.forEach(cb => cb(progressValue));
+    deferred.promise.progressCallbacks.forEach(cb => typeof cb === 'function' && cb(progressValue));
   };
   return deferred;
 };
