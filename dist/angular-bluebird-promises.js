@@ -1,6 +1,6 @@
 /**
  * angular-bluebird-promises - Replaces $q with bluebirds promise API
- * @version v0.6.2
+ * @version v0.6.3
  * @link https://github.com/mattlewis92/angular-bluebird-promises
  * @license MIT
  */
@@ -101,7 +101,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  deferred.promise.progressCallbacks = [];
 	  deferred.notify = function (progressValue) {
 	    deferred.promise.progressCallbacks.forEach(function (cb) {
-	      return cb(progressValue);
+	      return typeof cb === 'function' && cb(progressValue);
 	    });
 	  };
 	  return deferred;
