@@ -10,7 +10,7 @@ This is a drop in replacement for $q that makes the bluebird API compatible with
 
 With this module you can use all of bluebirds additional promise methods on the $q service, the full list can be found here:
 
-https://github.com/petkaantonov/bluebird/blob/master/API.md
+http://bluebirdjs.com/docs/api-reference.html
 
 ## Installation
 
