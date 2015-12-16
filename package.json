@@ -38,6 +38,7 @@
     "node-libs-browser": "~0.5.2",
     "open": "0.0.5",
     "phantomjs": "~1.9.17",
+    "pre-git": "~3.1.1",
     "webpack": "~1.12.2",
     "webpack-dev-server": "~1.14.0"
   },
@@ -51,6 +52,12 @@
     "build:unmin": "webpack --config webpack.config.build.js",
     "build:min": "webpack -p --config webpack.config.build.js",
     "build": "npm run build:unmin && npm run build:min",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "commit": "commit-wizard"
+  },
+  "config": {
+    "pre-git": {
+      "commit-msg": "conventional"
+    }
   }
 }
