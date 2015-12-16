@@ -41,7 +41,7 @@ module.exports = {
     }],
     loaders: [{
       test: /.*\.js$/,
-      loader: 'ng-annotate?regexp=angular.*?\\.module\\(.*?\\)$!babel?presets[]=es2015',
+      loader: 'ng-annotate?regexp=angular.*?\\.module\\(.*?\\)$!babel',
       exclude: /node_modules/
     }]
   },
