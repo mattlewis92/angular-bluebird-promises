@@ -151,6 +151,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}]);
 
 	exports.default = ngModule.name;
+	module.exports = exports['default'];
 
 /***/ },
 /* 1 */
