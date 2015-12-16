@@ -1,9 +1,9 @@
 import 'babel-polyfill';
 import angular from 'angular';
 import 'angular-mocks';
-import './../src/angular-bluebird-promises.js';
+import bluebirdPromises from './../src/angular-bluebird-promises.js';
 
-beforeEach(angular.mock.module('mwl.bluebird'));
+beforeEach(angular.mock.module(bluebirdPromises));
 
 describe('$q', function() {
 
@@ -13,6 +13,10 @@ describe('$q', function() {
     $q = _$q_;
     $rootScope = _$rootScope_;
   }));
+
+  it('should export the commonjs module name', () => {
+    expect(require('./../src/angular-bluebird-promises.js')).to.equal('mwl.bluebird'); // eslint-disable-line no-undef
+  });
 
   describe('defer', function() {
 
