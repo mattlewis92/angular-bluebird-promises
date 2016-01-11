@@ -17,7 +17,7 @@ angular.extend($qBluebird, Promise);
 
 $qBluebird.defer = function() {
   const deferred = {};
-  deferred.promise = $qBluebird(function(resolve, reject) {
+  deferred.promise = $qBluebird((resolve, reject) => {
     deferred.resolve = resolve;
     deferred.reject = reject;
   });
@@ -58,22 +58,16 @@ $qBluebird.prototype.finally = function(finallyHandler, progressHandler) {
   return originalFinally.call(this, finallyHandler);
 };
 
-$qBluebird.onPossiblyUnhandledRejection(angular.noop);
+$qBluebird.onPossiblyUnhandledRejection(() => {});
 
 const ngModule = angular
   .module('mwl.bluebird', [])
   .constant('Bluebird', $qBluebird)
-  .config(function($provide, Bluebird) {
-
-    $provide.decorator('$q', function() {
-      return Bluebird;
-    });
-
+  .config(($provide, Bluebird) => {
+    $provide.decorator('$q', () => Bluebird);
   })
-  .run(function($rootScope, Bluebird) {
-
+  .run(($rootScope, Bluebird) => {
     Bluebird.setScheduler((cb) => $rootScope.$evalAsync(cb));
-
   });
 
 export default ngModule.name;
