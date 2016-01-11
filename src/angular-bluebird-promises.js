@@ -58,6 +58,7 @@ $qBluebird.prototype.finally = function(finallyHandler, progressHandler) {
   return originalFinally.call(this, finallyHandler);
 };
 
+// You should override this, see the readme
 $qBluebird.onPossiblyUnhandledRejection(() => {});
 
 const ngModule = angular
