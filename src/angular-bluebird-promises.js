@@ -67,7 +67,7 @@ const ngModule = angular
     $provide.decorator('$q', () => Bluebird);
   })
   .run(($rootScope, Bluebird) => {
-    Bluebird.setScheduler((cb) => $rootScope.$evalAsync(cb));
+    Bluebird.setScheduler(cb => $rootScope.$evalAsync(cb));
   });
 
 export default ngModule.name;
