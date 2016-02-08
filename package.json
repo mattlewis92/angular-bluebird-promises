@@ -55,8 +55,8 @@
   "scripts": {
     "test:watch": "karma start --watch",
     "test": "karma start",
-    "build:unmin": "webpack --config webpack.config.build.js",
-    "build:min": "webpack -p --config webpack.config.build.js",
+    "build:unmin": "webpack --config webpack.config.build.babel.js",
+    "build:min": "webpack -p --config webpack.config.build.babel.js",
     "build": "npm run build:unmin && npm run build:min",
     "start": "webpack-dev-server",
     "commit": "git-cz",

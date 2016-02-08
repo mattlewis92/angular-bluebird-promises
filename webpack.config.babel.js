@@ -1,10 +1,8 @@
-'use strict';
-
-const open = require('open');
-const karma = require('karma');
+import open from 'open';
+import karma from 'karma';
 
 const PORT = 8000;
-open('http://localhost:' + PORT);
+open(`http://localhost:${PORT}`);
 
 const server = new karma.Server({
   configFile: __dirname + '/karma.conf.js',
@@ -14,7 +12,7 @@ const server = new karma.Server({
 
 server.start();
 
-module.exports = {
+export default {
   entry: __dirname + '/src/angular-bluebird-promises.js',
   devtool: 'source-map',
   output: {

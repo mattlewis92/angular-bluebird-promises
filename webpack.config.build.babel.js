@@ -1,10 +1,9 @@
-'use strict';
+import webpack from 'webpack';
+import pkg from './package.json';
 
-const webpack = require('webpack');
 const MIN = process.argv.indexOf('-p') > -1;
 
-function getBanner() {
-  const pkg = require('./bower.json');
+const getBanner = () => {
   return `
 /**
  * ${pkg.name} - ${pkg.description}
@@ -13,12 +12,12 @@ function getBanner() {
  * @license ${pkg.license}
  */
  `.trim();
-}
+};
 
-module.exports = {
-  entry: __dirname + '/src/angular-bluebird-promises.js',
+export default {
+  entry: `${__dirname}/src/angular-bluebird-promises.js`,
   output: {
-    path: __dirname + '/dist',
+    path: `${__dirname}/dist`,
     filename: MIN ? 'angular-bluebird-promises.min.js' : 'angular-bluebird-promises.js',
     libraryTarget: 'umd',
     library: 'angularBluebirdPromisesModuleName'
