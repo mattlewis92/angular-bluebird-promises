@@ -47,6 +47,12 @@ Then add as a dependency to your app:
 angular.module('myApp', [require('angular-bluebird-promises')]);
 ```
 
+## Usage
+
+Simply use $q as you normally would. It will function exactly as before, however you will now have bluebirds additional API methods available as well on all promises throughout your angular app.
+
+## Unhandled rejections
+
 By default the value of onPossiblyUnhandledRejection is set to angular.noop. You **can and should** override this with your own handler in order to catch uncaught errors. For example:
 
 ```javascript
@@ -66,10 +72,6 @@ $q.onPossiblyUnhandledRejection(function(exception) {
   // Handle exception
 });
 ```
-
-## Usage
-
-Simply use $q as you normally would. It will function exactly as before, however you will now have bluebirds additional API methods available as well on all promises throughout your angular app.
 
 ## Example
 
