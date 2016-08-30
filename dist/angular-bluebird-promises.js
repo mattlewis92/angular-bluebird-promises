@@ -1,6 +1,6 @@
 /**
  * angular-bluebird-promises - Replaces $q with bluebirds promise API
- * @version v1.0.1
+ * @version v1.0.2
  * @link https://github.com/mattlewis92/angular-bluebird-promises
  * @license MIT
  */
@@ -66,6 +66,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 	var _angular = __webpack_require__(1);
 
 	var _angular2 = _interopRequireDefault(_angular);
@@ -75,8 +77,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _bluebird2 = _interopRequireDefault(_bluebird);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 
 	// In regards to: https://github.com/petkaantonov/bluebird#for-library-authors
 	// My reasoning behind not doing this is to prevent bundling bluebird code with this library
@@ -136,15 +136,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return originalFinally.call(this, finallyHandler);
 	};
 
-	$qBluebird.onPossiblyUnhandledRejection(_angular2.default.noop);
+	// You should override this, see the readme
+	$qBluebird.onPossiblyUnhandledRejection(function () {});
 
 	var ngModule = _angular2.default.module('mwl.bluebird', []).constant('Bluebird', $qBluebird).config(["$provide", "Bluebird", function ($provide, Bluebird) {
-
 	  $provide.decorator('$q', function () {
 	    return Bluebird;
 	  });
 	}]).run(["$rootScope", "Bluebird", function ($rootScope, Bluebird) {
-
 	  Bluebird.setScheduler(function (cb) {
 	    return $rootScope.$evalAsync(cb);
 	  });
