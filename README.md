@@ -51,6 +51,10 @@ angular.module('myApp', [require('angular-bluebird-promises')]);
 
 Simply use $q as you normally would. It will function exactly as before, however you will now have bluebirds additional API methods available as well on all promises throughout your angular app.
 
+## $q.all vs. bluebird Promise.all
+
+The behavior of the `$q.all(...)` function is actually a combination of bluebird's `Promise.props` and `Promise.all` function depending on whether an object or an array is passed, respectively. This behavior is preserved such that calling `$q.all` with an object will pass through to `Promise.props` while calling it with an array will pass through to `Promise.all`.
+
 ## Unhandled rejections
 
 By default the value of onPossiblyUnhandledRejection is set to angular.noop. You **can and should** override this with your own handler in order to catch uncaught errors. For example:
