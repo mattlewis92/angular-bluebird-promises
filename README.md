@@ -1,5 +1,6 @@
 # Angular bluebird promises
 
+[![project unmaintained](https://img.shields.io/badge/project-unmaintained-red.svg)](https://img.shields.io/badge/project-unmaintained-red.svg)
 [![Build Status](https://travis-ci.org/mattlewis92/angular-bluebird-promises.svg?branch=master)](https://travis-ci.org/mattlewis92/angular-bluebird-promises)
 [![Bower version](https://badge.fury.io/bo/angular-bluebird-promises.svg)](http://badge.fury.io/bo/angular-bluebird-promises)
 [![npm version](https://badge.fury.io/js/angular-bluebird-promises.svg)](http://badge.fury.io/js/angular-bluebird-promises)
